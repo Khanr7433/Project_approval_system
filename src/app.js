@@ -1,9 +1,11 @@
 import express from "express";
-import userRoutes from "./routes/user.routes.js";
 
 const app = express();
 
-// routes
+// import routes
+import userRoutes from "./routes/user.routes.js";
+
+// routes declaration
 app.get("/", (req, res) => {
   res.send("Hello this is home route");
 });
