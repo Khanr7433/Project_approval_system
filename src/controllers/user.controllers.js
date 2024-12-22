@@ -1,6 +1,7 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import apiError from "../utils/apiError.js";
 import apiResponse from "../utils/apiResponse.js";
+import sendEmail from "../utils/sendEmail.js";
 import { User } from "../models/user.models.js";
 import { cookieOptions } from "../constants.js";
 
@@ -19,7 +20,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const user = await User.create({
     fullName,
-    email,
+    email: email.toLowerCase(),
     password,
   });
 
@@ -110,6 +111,35 @@ const changePassword = asyncHandler(async (req, res) => {
     .json(new apiResponse(200, {}, "Password changed successfully"));
 });
 
-const forgotPassword = asyncHandler(async (req, res) => {});
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    throw new apiError(400, "Email is required");
+  }
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new apiError(404, "User not found");
+  }
+
+  const token = user.generatePasswordResetToken();
+  await user.save();
+
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+
+  const message = `You can reset your password here: ${resetUrl}`;
+
+  await sendEmail(user.email, "Reset Password", message)
+    .then(
+      res.status(200).json(new apiResponse(200, {}, "Email sent successfully"))
+    )
+    .catch(
+      res
+        .status(500)
+        .json(new apiError(500, "Something went wrong while sending email"))
+    );
+});
 
 export { registerUser, loginUser, logoutUser, changePassword, forgotPassword };
