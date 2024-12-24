@@ -168,12 +168,6 @@ const resetPassword = asyncHandler(async (req, res) => {
     passwordResetToken: token,
   });
 
-  const tokemDB = user.passwordResetToken;
-
-  console.log(token);
-  console.log(tokemDB);
-  console.log(user);
-
   if (!user) {
     throw new apiError(404, "User not found");
   }
