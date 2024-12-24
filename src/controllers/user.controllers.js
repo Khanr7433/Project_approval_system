@@ -131,14 +131,16 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   const message = `You can reset your password here: ${resetUrl}`;
 
-  await sendEmail(user.email, "Reset Password", message)
-    .then(
-      res.status(200).json(new apiResponse(200, {}, "Email sent successfully"))
-    )
-    .catch(
-      res
-        .status(500)
-        .json(new apiError(500, "Something went wrong while sending email"))
+  const mailDeatils = await sendEmail(user.email, "Reset Password", message);
+
+  if (!mailDeatils) {
+    throw new apiError(500, "Something went wrong while sending email");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new apiResponse(200, { mailDeatils }, "Password reset link sent to email")
     );
 });
 

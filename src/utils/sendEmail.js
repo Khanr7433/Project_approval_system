@@ -2,6 +2,9 @@ import nodemailer from "nodemailer";
 
 async function sendEmail(to, subject, text) {
   let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: true,
     service: "gmail",
     auth: {
       user: process.env.SMTP_EMAIL,
@@ -10,7 +13,7 @@ async function sendEmail(to, subject, text) {
   });
 
   let mailOptions = {
-    from: `"Rashid Khan <${process.env.SMTP_EMAIL}>"`,
+    from: `"Rashid Khan ${process.env.SMTP_EMAIL}"`,
     to: to,
     subject: subject,
     text: text,
@@ -18,11 +21,7 @@ async function sendEmail(to, subject, text) {
 
   let info = await transporter.sendMail(mailOptions);
 
-  return res
-    .status(200)
-    .json(
-      new apiResponse(200, { info }, "Password reset link sent successfully")
-    );
+  return info;
 }
 
 export default sendEmail;
