@@ -124,10 +124,14 @@ const forgotPassword = asyncHandler(async (req, res) => {
     throw new apiError(404, "User not found");
   }
 
-  const token = user.generatePasswordResetToken();
+  const passwordResetToken = user.generatePasswordResetToken().slice(0, 40);
+  const passwordResetTokenExpires = Date.now() + 10 * 60 * 1000;
+
+  user.passwordResetToken = passwordResetToken;
+  user.passwordResetTokenExpires = passwordResetTokenExpires;
   await user.save();
 
-  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${passwordResetToken}`;
 
   const message = `You can reset your password here: ${resetUrl}`;
 
@@ -144,4 +148,63 @@ const forgotPassword = asyncHandler(async (req, res) => {
     );
 });
 
-export { registerUser, loginUser, logoutUser, changePassword, forgotPassword };
+const resetPassword = asyncHandler(async (req, res) => {
+  const { passwordResetToken } = req.params;
+  const { password, confirmPassword } = req.body;
+
+  if (!passwordResetToken) {
+    throw new apiError(400, "Password Reset Token is required");
+  }
+  if (!password) {
+    throw new apiError(400, "Password is required");
+  }
+  if (!confirmPassword) {
+    throw new apiError(400, "Confirm password is required");
+  }
+
+  const token = passwordResetToken.split("=")[1];
+
+  const user = await User.findOne({
+    passwordResetToken: token,
+  });
+
+  const tokemDB = user.passwordResetToken;
+
+  console.log(token);
+  console.log(tokemDB);
+  console.log(user);
+
+  if (!user) {
+    throw new apiError(404, "User not found");
+  }
+
+  if (user.passwordResetToken !== token) {
+    throw new apiError(400, "Invalid token");
+  }
+
+  if (user.passwordResetTokenExpires < Date.now()) {
+    throw new apiError(400, "Token expired");
+  }
+
+  if (password !== confirmPassword) {
+    throw new apiError(400, "Passwords do not match");
+  }
+
+  user.password = password;
+  user.passwordResetToken = undefined;
+  user.passwordResetTokenExpires = undefined;
+  await user.save();
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, {}, "Password reset successfully"));
+});
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  changePassword,
+  forgotPassword,
+  resetPassword,
+};
