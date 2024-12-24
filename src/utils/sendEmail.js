@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 
 async function sendEmail(to, subject, text) {
-  let transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
     secure: true,
@@ -12,14 +12,14 @@ async function sendEmail(to, subject, text) {
     },
   });
 
-  let mailOptions = {
+  const mailOptions = {
     from: `"Rashid Khan ${process.env.SMTP_EMAIL}"`,
     to: to,
     subject: subject,
     text: text,
   };
 
-  let info = await transporter.sendMail(mailOptions);
+  const info = await transporter.sendMail(mailOptions);
 
   return info;
 }
