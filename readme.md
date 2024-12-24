@@ -2,6 +2,11 @@
 
 This project is a system designed to manage and approve projects efficiently.
 
+## Prerequisites
+
+- Node.js
+- npm
+
 ## Installation
 
 1. Clone the repository:
@@ -32,6 +37,13 @@ This project is a system designed to manage and approve projects efficiently.
 - Project approval workflow
 - Notifications
 
+## Technologies Used
+
+- Node.js
+- Express
+- MongoDB
+- React
+
 ## Contributing
 
 1. Fork the repository.
@@ -40,7 +52,3 @@ This project is a system designed to manage and approve projects efficiently.
 4. Commit your changes (`git commit -m 'Add some feature'`).
 5. Push to the branch (`git push origin feature-branch`).
 6. Open a pull request.
-
-## License
-
-This project is licensed under the MIT License.
