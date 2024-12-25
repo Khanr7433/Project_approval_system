@@ -2,25 +2,29 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const userSchema = new mongoose.Schema(
+const facultySchema = new mongoose.Schema(
   {
-    fullName: {
+    name: {
       type: String,
       required: true,
     },
     email: {
       type: String,
       required: true,
-      unique: true,
+    },
+    department: {
+      type: String,
+      required: true,
+      enum: ["BCA", "BBA-CA"],
+    },
+    designation: {
+      type: String,
+      required: true,
+      enum: ["Assistant Professor", "Associate Professor", "Professor"],
     },
     password: {
       type: String,
       required: true,
-    },
-    role: {
-      type: String,
-      default: "student",
-      enum: ["student", "teacher", "admin"],
     },
     passwordResetToken: {
       type: String,
@@ -36,23 +40,23 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.pre("save", async function (next) {
+facultySchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
-userSchema.methods.isPasswordCorrect = async function (password) {
+facultySchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateJWTToken = function () {
+facultySchema.methods.generateJWTToken = function () {
   return jwt.sign(
     {
       _id: this._id,
       email: this.email,
-      fullName: this.fullName,
+      name: this.name,
     },
     process.env.JWT_SECRET,
     {
@@ -61,8 +65,8 @@ userSchema.methods.generateJWTToken = function () {
   );
 };
 
-userSchema.methods.generatePasswordResetToken = function () {
-  const resetToken = jwt.sign(
+facultySchema.methods.generatePasswordResetToken = function () {
+  return jwt.sign(
     {
       _id: this._id,
     },
@@ -71,8 +75,6 @@ userSchema.methods.generatePasswordResetToken = function () {
       expiresIn: "10m",
     }
   );
-
-  return resetToken;
 };
 
-export const User = mongoose.model("User", userSchema);
+export const Faculty = mongoose.model("Faculty", facultySchema);

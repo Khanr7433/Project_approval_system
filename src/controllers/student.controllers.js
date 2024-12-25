@@ -2,61 +2,74 @@ import asyncHandler from "../utils/asyncHandler.js";
 import apiError from "../utils/apiError.js";
 import apiResponse from "../utils/apiResponse.js";
 import sendEmail from "../utils/sendEmail.js";
-import { User } from "../models/user.models.js";
+import { Student } from "../models/student.models.js";
 import { cookieOptions } from "../constants.js";
 
-const registerUser = asyncHandler(async (req, res) => {
-  const { fullName, email, password } = req.body;
+const registerStudent = asyncHandler(async (req, res) => {
+  const { fullName, rollNo, year, department, email, password } = req.body;
 
-  if ([fullName, email, password].some((field) => field?.trim() === "")) {
+  if (
+    [fullName, rollNo, year, department, email, password].some(
+      (field) => field?.trim() === ""
+    )
+  ) {
     throw new apiError(400, "All fields are required and cannot be empty");
   }
 
-  const userExists = await User.findOne({ email });
+  const studentExists = await Student.findOne({ email });
 
-  if (userExists) {
-    throw new apiError(400, "User already exists");
+  if (studentExists) {
+    throw new apiError(400, "Student already exists");
   }
 
-  const user = await User.create({
+  const student = await Student.create({
     fullName,
+    rollNo,
+    year,
+    department,
     email: email.toLowerCase(),
     password,
   });
 
-  const createdUser = await User.findById(user._id).select("-password");
+  const createdStudent = await Student.findById(student._id).select(
+    "-password"
+  );
 
-  if (!createdUser) {
-    throw new apiError(500, "Something went wrong while registering user");
+  if (!createdStudent) {
+    throw new apiError(500, "Something went wrong while registering student");
   }
 
   return res
     .status(201)
-    .json(new apiResponse(201, createdUser, "User registered successfully"));
+    .json(
+      new apiResponse(201, createdStudent, "Student registered successfully")
+    );
 });
 
-const loginUser = asyncHandler(async (req, res) => {
+const loginStudent = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   if (!(email && password)) {
     throw new apiError(400, "All fields are required");
   }
 
-  const user = await User.findOne({ email });
+  const student = await Student.findOne({ email });
 
-  if (!user) {
-    throw new apiError(404, "User not found");
+  if (!student) {
+    throw new apiError(404, "Student not found");
   }
 
-  const isPasswordCorrect = await user.isPasswordCorrect(password);
+  const isPasswordCorrect = await student.isPasswordCorrect(password);
 
   if (!isPasswordCorrect) {
     throw new apiError(401, "Invalid credentials");
   }
 
-  const token = user.generateJWTToken();
+  const token = student.generateJWTToken();
 
-  const loggedInUser = await User.findById(user._id).select("-password");
+  const loggedInStudent = await Student.findById(student._id).select(
+    "-password"
+  );
 
   return res
     .status(200)
@@ -65,19 +78,19 @@ const loginUser = asyncHandler(async (req, res) => {
       new apiResponse(
         200,
         {
-          loggedInUser,
+          loggedInStudent,
           token,
         },
-        "User logged in successfully"
+        "Student logged in successfully"
       )
     );
 });
 
-const logoutUser = asyncHandler(async (req, res) => {
+const logoutStudent = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .clearCookie("token", cookieOptions)
-    .json(new apiResponse(200, {}, "User logged out successfully"));
+    .json(new apiResponse(200, {}, "Student logged out successfully"));
 });
 
 const changePassword = asyncHandler(async (req, res) => {
@@ -91,20 +104,20 @@ const changePassword = asyncHandler(async (req, res) => {
     throw new apiError(400, "New password cannot be the same as old password");
   }
 
-  const user = await User.findById(req.user?._id);
+  const student = await Student.findById(req.student?._id);
 
-  if (!user) {
-    throw new apiError(404, "User not found");
+  if (!student) {
+    throw new apiError(404, "Student not found");
   }
 
-  const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+  const isPasswordCorrect = await student.isPasswordCorrect(oldPassword);
 
   if (!isPasswordCorrect) {
     throw new apiError(401, "Invalid credentials");
   }
 
-  user.password = newPassword;
-  await user.save();
+  student.password = newPassword;
+  await student.save();
 
   return res
     .status(200)
@@ -118,24 +131,24 @@ const forgotPassword = asyncHandler(async (req, res) => {
     throw new apiError(400, "Email is required");
   }
 
-  const user = await User.findOne({ email });
+  const student = await Student.findOne({ email });
 
-  if (!user) {
-    throw new apiError(404, "User not found");
+  if (!student) {
+    throw new apiError(404, "Student not found");
   }
 
-  const passwordResetToken = user.generatePasswordResetToken().slice(0, 40);
+  const passwordResetToken = student.generatePasswordResetToken().slice(0, 40);
   const passwordResetTokenExpires = Date.now() + 10 * 60 * 1000;
 
-  user.passwordResetToken = passwordResetToken;
-  user.passwordResetTokenExpires = passwordResetTokenExpires;
-  await user.save();
+  student.passwordResetToken = passwordResetToken;
+  student.passwordResetTokenExpires = passwordResetTokenExpires;
+  await student.save();
 
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${passwordResetToken}`;
 
   const message = `You can reset your password here: ${resetUrl}`;
 
-  const mailDeatils = await sendEmail(user.email, "Reset Password", message);
+  const mailDeatils = await sendEmail(student.email, "Reset Password", message);
 
   if (!mailDeatils) {
     throw new apiError(500, "Something went wrong while sending email");
@@ -155,28 +168,30 @@ const resetPassword = asyncHandler(async (req, res) => {
   if (!passwordResetToken) {
     throw new apiError(400, "Password Reset Token is required");
   }
+
   if (!password) {
     throw new apiError(400, "Password is required");
   }
+
   if (!confirmPassword) {
     throw new apiError(400, "Confirm password is required");
   }
 
   const token = passwordResetToken.split("=")[1];
 
-  const user = await User.findOne({
+  const student = await Student.findOne({
     passwordResetToken: token,
   });
 
-  if (!user) {
-    throw new apiError(404, "User not found");
+  if (!student) {
+    throw new apiError(404, "Student not found");
   }
 
-  if (user.passwordResetToken !== token) {
+  if (student.passwordResetToken !== token) {
     throw new apiError(400, "Invalid token");
   }
 
-  if (user.passwordResetTokenExpires < Date.now()) {
+  if (student.passwordResetTokenExpires < Date.now()) {
     throw new apiError(400, "Token expired");
   }
 
@@ -184,10 +199,10 @@ const resetPassword = asyncHandler(async (req, res) => {
     throw new apiError(400, "Passwords do not match");
   }
 
-  user.password = password;
-  user.passwordResetToken = undefined;
-  user.passwordResetTokenExpires = undefined;
-  await user.save();
+  student.password = password;
+  student.passwordResetToken = undefined;
+  student.passwordResetTokenExpires = undefined;
+  await student.save();
 
   return res
     .status(200)
@@ -195,9 +210,9 @@ const resetPassword = asyncHandler(async (req, res) => {
 });
 
 export {
-  registerUser,
-  loginUser,
-  logoutUser,
+  registerStudent,
+  loginStudent,
+  logoutStudent,
   changePassword,
   forgotPassword,
   resetPassword,

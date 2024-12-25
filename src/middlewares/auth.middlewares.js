@@ -1,9 +1,9 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import apiError from "../utils/apiError.js";
-import { User } from "../models/user.models.js";
+import { Student } from "../models/student.models.js";
 import jwt from "jsonwebtoken";
 
-const authenticateUser = asyncHandler(async (req, res, next) => {
+const authenticateStudent = asyncHandler(async (req, res, next) => {
   try {
     const token =
       req.cookie?.token || req.header("Authorization")?.replace("Bearer ", "");
@@ -14,13 +14,15 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await User.findById(decodedToken._id).select("-password");
+    const student = await Student.findById(decodedToken._id).select(
+      "-password"
+    );
 
-    if (!user) {
-      throw new apiError(404, "User not found");
+    if (!student) {
+      throw new apiError(404, "Student not found");
     }
 
-    req.user = user;
+    req.student = student;
 
     next();
   } catch (error) {
@@ -28,4 +30,4 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-export default authenticateUser;
+export default authenticateStudent;

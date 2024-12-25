@@ -8,12 +8,12 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(cookieParser());
 
 // import routes
-import userRoutes from "./routes/user.routes.js";
+import studentRoutes from "./routes/student.routes.js";
 
 // routes declaration
 app.get("/", (req, res) => {
   res.send("Hello this is home route");
 });
-app.use("/users", userRoutes);
+app.use("/students", studentRoutes);
 
 export default app;
