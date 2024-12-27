@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 const facultySchema = new mongoose.Schema(
   {
-    name: {
+    fullName: {
       type: String,
       required: true,
     },

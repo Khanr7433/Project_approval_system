@@ -9,11 +9,13 @@ app.use(cookieParser());
 
 // import routes
 import studentRoutes from "./routes/student.routes.js";
+import facultyRoutes from "./routes/faculty.routes.js";
 
 // routes declaration
 app.get("/", (req, res) => {
   res.send("Hello this is home route");
 });
 app.use("/students", studentRoutes);
+app.use("/faculties", facultyRoutes);
 
 export default app;
