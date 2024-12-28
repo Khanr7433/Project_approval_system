@@ -22,6 +22,12 @@ const facultySchema = new mongoose.Schema(
       required: true,
       enum: ["Assistant Professor", "Associate Professor", "Professor"],
     },
+    assignedProjects: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Project",
+      },
+    ],
     password: {
       type: String,
       required: true,

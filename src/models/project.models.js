@@ -10,15 +10,26 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    byStudent: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Student",
-      required: true,
-    },
+    byStudent: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student",
+        required: true,
+      },
+    ],
     guide: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Faculty",
+    },
+    synopsis: {
+      type: String,
       required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+      default: "pending",
+      enum: ["pending", "approved", "rejected"],
     },
   },
   {
