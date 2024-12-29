@@ -22,7 +22,7 @@ const uploadProject = asyncHandler(async (req, res) => {
       throw new apiError(400, "Title and description are required!");
     }
 
-    const synopsisLocalPath = req.file?.path;
+    const synopsisLocalPath = req.file.path;
 
     if (!synopsisLocalPath) {
       throw new apiError(400, "Synopsis is required!");
@@ -34,10 +34,10 @@ const uploadProject = asyncHandler(async (req, res) => {
       throw new apiError(500, "Failed to upload synopsis!");
     }
 
-    const project = new Project.create({
+    const project = await Project.create({
       title,
       description,
-      byStudent: req.user._id,
+      byStudent: req.student._id,
       synopsis: synopsis?.url || "",
     });
 
@@ -48,7 +48,7 @@ const uploadProject = asyncHandler(async (req, res) => {
     }
 
     return res.status(201).json(
-      apiResponse(
+      new apiResponse(
         201,
         {
           project: uploadedProject,

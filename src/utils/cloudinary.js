@@ -1,6 +1,9 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import ApiError from "./apiError.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -16,11 +19,11 @@ const uploadOnCloudinary = async (localFilePath) => {
       resource_type: "auto",
     });
 
-    //  fs.unlinkSync(localFilePath);
+    fs.unlinkSync(localFilePath);
 
     return response;
   } catch (error) {
-    // fs.unlinkSync(localFilePath);
+    fs.unlinkSync(localFilePath);
 
     throw new ApiError(500, "Error while uploading file to cloudinary");
   }
