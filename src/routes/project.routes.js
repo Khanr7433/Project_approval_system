@@ -9,7 +9,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 const router = Router();
 
 router
-  .route("/upload-project")
+  .route("/upload-synopsis")
   .post(authenticateStudent, upload.single("synopsis"), uploadProject);
 router.route("/get-projects").get(authenticateStudent, getProjects);
 

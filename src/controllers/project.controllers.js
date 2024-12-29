@@ -6,11 +6,11 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const uploadProject = asyncHandler(async (req, res) => {
   try {
-    if (!req.user) {
+    if (!req.student) {
       throw new apiError(401, "Unauthorized!");
     }
 
-    const projects = await Project.find({ byStudent: req.user._id });
+    const projects = await Project.find({ byStudent: req.student._id });
 
     if (projects.length >= 2) {
       throw new apiError(400, "You have already uploaded two projects!");
@@ -22,7 +22,7 @@ const uploadProject = asyncHandler(async (req, res) => {
       throw new apiError(400, "Title and description are required!");
     }
 
-    const synopsisLocalPath = req.file?.synopsis?.path;
+    const synopsisLocalPath = req.file?.path;
 
     if (!synopsisLocalPath) {
       throw new apiError(400, "Synopsis is required!");
