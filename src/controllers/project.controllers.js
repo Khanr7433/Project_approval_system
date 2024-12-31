@@ -64,22 +64,87 @@ const uploadProject = asyncHandler(async (req, res) => {
 
 const getProjects = asyncHandler(async (req, res) => {
   try {
-    const projects = await Project.find({ byStudent: req.user._id });
+    // get all projects
+    const projects = await Project.find();
 
-    if (!projects.length) {
+    if (!projects) {
       throw new apiError(404, "No projects found!");
     }
 
     return res
       .status(200)
-      .json(apiResponse(200, { projects }, "Projects fetched successfully!"));
+      .json(
+        new apiResponse(200, { projects }, "Projects fetched successfully!")
+      );
   } catch (error) {
     throw new apiError(401, error?.message || "Something went wrong!");
   }
 });
 
-const approveProject = asyncHandler(async (req, res) => {});
+const approveProject = asyncHandler(async (req, res) => {
+  try {
+    const project = await Project.findById(req.params._id);
 
-const deleteProject = asyncHandler(async (req, res) => {});
+    if (!project) {
+      throw new apiError(404, "Project not found!");
+    }
 
-export { uploadProject, getProjects, approveProject, deleteProject };
+    project.status = "approved";
+    await project.save();
+
+    return res
+      .status(200)
+      .json(
+        new apiResponse(200, { project }, "Project approved successfully!")
+      );
+  } catch (error) {
+    throw new apiError(401, error?.message || "Something went wrong!");
+  }
+});
+
+const rejectProject = asyncHandler(async (req, res) => {
+  try {
+    const project = await Project.findById(req.params._id);
+
+    if (!project) {
+      throw new apiError(404, "Project not found!");
+    }
+
+    project.status = "rejected";
+    await project.save();
+
+    return res
+      .status(200)
+      .json(
+        new apiResponse(200, { project }, "Project rejected successfully!")
+      );
+  } catch (error) {
+    throw new apiError(401, error?.message || "Something went wrong!");
+  }
+});
+
+const deleteProject = asyncHandler(async (req, res) => {
+  try {
+    const project = await Project.findById(req.params._id);
+
+    if (!project) {
+      throw new apiError(404, "Project not found!");
+    }
+
+    await project.remove();
+
+    return res
+      .status(200)
+      .json(new apiResponse(200, null, "Project deleted successfully!"));
+  } catch (error) {
+    throw new apiError(401, error?.message || "Something went wrong!");
+  }
+});
+
+export {
+  uploadProject,
+  getProjects,
+  approveProject,
+  rejectProject,
+  deleteProject,
+};
