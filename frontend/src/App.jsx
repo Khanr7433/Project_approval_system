@@ -1,10 +1,11 @@
-import React from "react";
+import { Button } from "@/components/ui/Button";
 
 const App = () => {
   return (
     <>
       <div>
-        <h1 className="bg-red-700 text-black">Hello World</h1>
+        <h1 className="text-2xl">Hello</h1>
+        <Button>Click Me</Button>
       </div>
     </>
   );
