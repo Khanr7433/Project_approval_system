@@ -1,10 +1,12 @@
-import { ThemeProvider } from "@/components/Theme-provider";
+import React from "react";
+import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
 
 const App = () => {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      {children}
-    </ThemeProvider>
+    <>
+      <Login />
+    </>
   );
 };
 
