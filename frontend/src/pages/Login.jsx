@@ -2,15 +2,27 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import axios from "axios";
 import React, { useState } from "react";
 
 const Login = () => {
-  const { email, setEmail } = useState("");
-  const { password, setPassword } = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+
+    const user = await axios
+      .post(`"${process.env.REACT_APP_BACKEND_URL}/students/login"`, {
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -21,19 +33,30 @@ const Login = () => {
           <h1 className="text-2xl">Login</h1>
           <form className="flex flex-col gap-4 px-10 py-4">
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" id="email">
+                Email
+              </Label>
+
               <Input
                 value={email}
-                onChange={(e) => (setEmail = e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                id="email"
                 type="email"
                 placeholder="Enter your Email"
               />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="email">Password</Label>
+              <Label htmlFor="email" id="password">
+                Password
+              </Label>
               <Input
                 value={password}
-                onChange={(e) => (setPassword = e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                id="password"
                 type="password"
                 placeholder="Enter your Password"
               />
