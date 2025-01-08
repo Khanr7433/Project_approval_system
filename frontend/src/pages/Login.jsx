@@ -13,16 +13,18 @@ const Login = () => {
     e.preventDefault();
 
     const user = await axios
-      .post(`"${process.env.REACT_APP_BACKEND_URL}/students/login"`, {
+      .post(`"${import.meta.env.BACKEND_URL}/students/login"`, {
         email: email,
         password: password,
       })
-      .then((res) => {
-        console.log(res.data);
+      .then((response) => {
+        console.log(response.data);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
       });
+
+    console.log(user);
   };
 
   return (
@@ -30,13 +32,12 @@ const Login = () => {
       <Navbar />
       <div className="flex justify-center items-center h-full">
         <div className="flex flex-col items-center justify-center border border-red-600 rounded-lg">
-          <h1 className="text-2xl">Login</h1>
+          <h1 className="text-2xl">Login Student</h1>
           <form className="flex flex-col gap-4 px-10 py-4">
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email" id="email">
                 Email
               </Label>
-
               <Input
                 value={email}
                 onChange={(e) => {
@@ -47,6 +48,7 @@ const Login = () => {
                 placeholder="Enter your Email"
               />
             </div>
+
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email" id="password">
                 Password
@@ -61,6 +63,7 @@ const Login = () => {
                 placeholder="Enter your Password"
               />
             </div>
+
             <Button onClick={handleLogin} type="submit">
               Login
             </Button>
