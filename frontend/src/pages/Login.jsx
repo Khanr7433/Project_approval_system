@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
 
     const user = await axios
-      .post(`"${import.meta.env.BACKEND_URL}/students/login"`, {
+      .post(`${import.meta.env.BACKEND_URL}/students/login`, {
         email: email,
         password: password,
       })

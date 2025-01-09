@@ -19,7 +19,7 @@ const Register = () => {
     console.log({ fullName, rollNo, year, department, email, password });
 
     const registerdStudent = await axios
-      .post(`"${import.meta.env.BACKEND_URL}/students/register"`, {
+      .post(`${import.meta.env.BACKEND_URL}/students/register`, {
         fullName: fullName,
         rollNo: rollNo,
         year: year,
