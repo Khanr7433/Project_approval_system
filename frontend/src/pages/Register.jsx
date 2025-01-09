@@ -19,7 +19,7 @@ const Register = () => {
     console.log({ fullName, rollNo, year, department, email, password });
 
     const registerdStudent = await axios
-      .post(`${import.meta.env.BACKEND_URL}/students/register`, {
+      .post(`${import.meta.env.VITE_BACKEND_URL}/students/register`, {
         fullName: fullName,
         rollNo: rollNo,
         year: year,
@@ -33,8 +33,6 @@ const Register = () => {
       .catch((error) => {
         console.log(error);
       });
-
-    console.log(registerdStudent);
   };
 
   return (
