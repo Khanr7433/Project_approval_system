@@ -1,13 +1,14 @@
-import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
-const Login = () => {
+const StudentLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  toast.success("hii");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,8 +27,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen w-screen">
-      <Navbar />
+    <div className="h-screen w-full">
       <div className="flex justify-center items-center h-full">
         <div className="flex flex-col items-center justify-center border border-red-600 rounded-lg">
           <h1 className="text-2xl">Login Student</h1>
@@ -72,4 +72,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default StudentLogin;

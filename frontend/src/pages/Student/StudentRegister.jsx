@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 import React, { useState } from "react";
 
-const Register = () => {
+const StudentRegister = () => {
   const [fullName, setFullName] = useState("");
   const [rollNo, setRollNo] = useState("");
   const [year, setYear] = useState("");
@@ -37,8 +37,7 @@ const Register = () => {
 
   return (
     <>
-      <div className="h-screen w-screen">
-        <Navbar />
+      <div className="h-screen w-full">
         <div className="flex justify-center items-center h-full">
           <div className="flex flex-col items-center justify-center border border-red-600 rounded-lg">
             <h1 className="text-2xl">Register Student</h1>
@@ -144,4 +143,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default StudentRegister;

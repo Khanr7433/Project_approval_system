@@ -1,12 +1,13 @@
 import React from "react";
-import Navbar from "@/components/Navbar";
-import Login from "@/pages/Login";
-import Register from "./pages/Register";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/Routes";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <>
-      <Login />
+      <RouterProvider router={router} />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

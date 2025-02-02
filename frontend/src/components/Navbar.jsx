@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -9,13 +9,21 @@ const Navbar = () => {
       </div>
       <div className="flex items-center gap-2">
         <ul className="flex gap-4 mx-3">
-          <li>Home</li>
+          <li>
+            <Link to="">Home</Link>
+          </li>
           <li>Projects</li>
           <li>Users</li>
         </ul>
-        <Button className="px-3">Log In</Button>
-        <Button className="px-3">Log Out</Button>
-        <Button className="px-3">Sign Up</Button>
+        <Link to="login" className="px-3">
+          Log In
+        </Link>
+        <Link to="register" className="px-3">
+          Sign Up
+        </Link>
+        <Link to="Logout" className="px-3">
+          Log Out
+        </Link>
       </div>
     </div>
   );
