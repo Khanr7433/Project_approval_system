@@ -6,6 +6,13 @@ import React, { useState } from "react";
 import { studentSchema } from "@/validation/studentValidation";
 import toast from "react-hot-toast";
 import { handleError } from "@/utils/htmlErrorHandler";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const StudentRegister = () => {
   const [fullName, setFullName] = useState("");
@@ -109,15 +116,22 @@ const StudentRegister = () => {
               <Label htmlFor="year" id="year">
                 Year
               </Label>
-              <Input
-                value={year}
-                onChange={(e) => {
-                  setYear(e.target.value);
+              <Select
+                onValueChange={(value) => {
+                  setYear(value);
                 }}
-                id="year"
-                type="text"
-                placeholder="Enter your Current Year (TY, SY, FY)"
-              />
+                value={year}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a Year" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="FY">FY</SelectItem>
+                  <SelectItem value="SY">SY</SelectItem>
+                  <SelectItem value="TY">TY</SelectItem>
+                </SelectContent>
+              </Select>
+
               {errors.year && (
                 <p className="text-red-600">{errors.year._errors[0]}</p>
               )}
@@ -127,15 +141,22 @@ const StudentRegister = () => {
               <Label htmlFor="department" id="department">
                 Department
               </Label>
-              <Input
-                value={department}
-                onChange={(e) => {
-                  setDepartment(e.target.value);
+
+              <Select
+                onValueChange={(value) => {
+                  setDepartment(value);
                 }}
-                id="department"
-                type="text"
-                placeholder="Enter your Department (BCA, BBA-CA)"
-              />
+                value={department}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a Department" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="BCA">BCA</SelectItem>
+                  <SelectItem value="BBA-CA">BBA-CA</SelectItem>
+                </SelectContent>
+              </Select>
+
               {errors.department && (
                 <p className="text-red-600">{errors.department._errors[0]}</p>
               )}

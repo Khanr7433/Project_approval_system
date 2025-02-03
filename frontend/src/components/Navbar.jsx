@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ModeToggle } from "./Theme-toggle";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
   return (
@@ -11,25 +12,25 @@ const Navbar = () => {
       <div className="flex items-center gap-2">
         <ul className="flex gap-4 mx-3 items-center ">
           <li>
-            <ModeToggle />
-          </li>
-          <li>
             <Link to="">Home</Link>
           </li>
           <li>
-            <Link to="student/login" className="px-3">
-              Log In
+            <ModeToggle />
+          </li>
+          <li>
+            <Link to="student/login">
+              <Button variant="outline">Login</Button>
             </Link>
           </li>
           <li>
             {" "}
-            <Link to="student/register" className="px-3">
-              Sign Up
+            <Link to="student/register">
+              <Button variant="outline">Sign Up</Button>
             </Link>
           </li>
           <li>
-            <Link to="student/Logout" className="px-3">
-              Log Out
+            <Link to="student/Logout">
+              <Button variant="outline">Log Out</Button>
             </Link>
           </li>
         </ul>
