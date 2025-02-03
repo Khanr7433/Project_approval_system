@@ -28,7 +28,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="Logout" className="px-3">
+            <Link to="student/Logout" className="px-3">
               Log Out
             </Link>
           </li>

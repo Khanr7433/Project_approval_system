@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import axios from "axios";
+import axiosInstance from "@/utils/axiosInstance";
 import React, { useState } from "react";
+import { studentSchema } from "@/validation/studentValidation";
+import toast from "react-hot-toast";
+import { handleError } from "@/utils/htmlErrorHandler";
 
 const StudentRegister = () => {
   const [fullName, setFullName] = useState("");
@@ -11,14 +14,32 @@ const StudentRegister = () => {
   const [department, setDepartment] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setErrors({});
+
+    const validationResult = studentSchema.safeParse({
+      fullName,
+      rollNo,
+      year,
+      department,
+      email,
+      password,
+    });
+
+    if (!validationResult.success) {
+      const fieldErrors = validationResult.error.format();
+      setErrors(fieldErrors);
+      return;
+    }
+
     console.log("Registering student");
     console.log({ fullName, rollNo, year, department, email, password });
 
-    const registerdStudent = await axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/students/register`, {
+    await axiosInstance
+      .post("/students/register", {
         fullName: fullName,
         rollNo: rollNo,
         year: year,
@@ -28,10 +49,18 @@ const StudentRegister = () => {
       })
       .then((response) => {
         console.log(response.data);
+        toast.success(response.data.message);
       })
       .catch((error) => {
-        console.log(error);
+        handleError(error);
       });
+
+    setFullName("");
+    setRollNo("");
+    setYear("");
+    setDepartment("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -53,6 +82,9 @@ const StudentRegister = () => {
                 type="text"
                 placeholder="Enter your Full Name"
               />
+              {errors.fullName && (
+                <p className="text-red-600">{errors.fullName._errors[0]}</p>
+              )}
             </div>
 
             <div className="grid w-full items-center gap-1.5">
@@ -68,6 +100,9 @@ const StudentRegister = () => {
                 type="number"
                 placeholder="Enter your Roll No"
               />
+              {errors.rollNo && (
+                <p className="text-red-600">{errors.rollNo._errors[0]}</p>
+              )}
             </div>
 
             <div className="grid w-full items-center gap-1.5">
@@ -83,6 +118,9 @@ const StudentRegister = () => {
                 type="text"
                 placeholder="Enter your Current Year (TY, SY, FY)"
               />
+              {errors.year && (
+                <p className="text-red-600">{errors.year._errors[0]}</p>
+              )}
             </div>
 
             <div className="grid w-full items-center gap-1.5">
@@ -98,6 +136,9 @@ const StudentRegister = () => {
                 type="text"
                 placeholder="Enter your Department (BCA, BBA-CA)"
               />
+              {errors.department && (
+                <p className="text-red-600">{errors.department._errors[0]}</p>
+              )}
             </div>
 
             <div className="grid w-full items-center gap-1.5">
@@ -113,6 +154,9 @@ const StudentRegister = () => {
                 type="email"
                 placeholder="Enter your Email"
               />
+              {errors.email && (
+                <p className="text-red-600">{errors.email._errors[0]}</p>
+              )}
             </div>
 
             <div className="grid w-full items-center gap-1.5">
@@ -128,6 +172,9 @@ const StudentRegister = () => {
                 type="password"
                 placeholder="Enter your Password"
               />
+              {errors.password && (
+                <p className="text-red-600">{errors.password._errors[0]}</p>
+              )}
             </div>
 
             <Button onClick={handleRegister} type="submit">

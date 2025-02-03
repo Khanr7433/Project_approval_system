@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 const authenticateStudent = asyncHandler(async (req, res, next) => {
   try {
     const token =
-      req.cookie?.token || req.header("Authorization")?.replace("Bearer ", "");
+      req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
       throw new apiError(401, "Unauthorized");
@@ -27,14 +27,17 @@ const authenticateStudent = asyncHandler(async (req, res, next) => {
 
     next();
   } catch (error) {
-    throw new apiError(401, error?.message || "Invalid access token");
+    throw new apiError(
+      401,
+      error?.message + " Something went wrong" || "Invalid access token"
+    );
   }
 });
 
 const authenticateFaculty = asyncHandler(async (req, res, next) => {
   try {
     const token =
-      req.cookie?.token || req.header("Authorization")?.replace("Bearer ", "");
+      req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
       throw new apiError(401, "Unauthorized");

@@ -18,9 +18,13 @@ const registerStudent = asyncHandler(async (req, res) => {
     }
 
     const studentExists = await Student.findOne({ email });
-
     if (studentExists) {
-      throw new apiError(400, "Student already exists");
+      throw new apiError(400, "Student with this email already exists");
+    }
+
+    const rollNoExists = await Student.findOne({ rollNo });
+    if (rollNoExists) {
+      throw new apiError(400, "Student with this roll number already exists");
     }
 
     const student = await Student.create({
