@@ -9,9 +9,8 @@ const studentSchema = new mongoose.Schema(
       required: true,
     },
     rollNo: {
-      type: String,
+      type: Number,
       required: true,
-      unique: true,
     },
     year: {
       type: String,
@@ -51,6 +50,8 @@ const studentSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+studentSchema.index({ rollNo: 1, year: 1, department: 1 }, { unique: true });
 
 studentSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

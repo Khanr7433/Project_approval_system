@@ -22,9 +22,20 @@ const registerStudent = asyncHandler(async (req, res) => {
       throw new apiError(400, "Student with this email already exists");
     }
 
-    const rollNoExists = await Student.findOne({ rollNo });
+    const studentCount = await Student.countDocuments({ year, department });
+    if (studentCount >= 300) {
+      throw new apiError(
+        400,
+        "Maximum 300 students can be registered for each year and department"
+      );
+    }
+
+    const rollNoExists = await Student.findOne({ rollNo, year, department });
     if (rollNoExists) {
-      throw new apiError(400, "Student with this roll number already exists");
+      throw new apiError(
+        400,
+        "Student with this roll number already exists in the given year and department"
+      );
     }
 
     const student = await Student.create({
