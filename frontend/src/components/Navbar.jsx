@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ModeToggle } from "./Theme-toggle";
 
 const Navbar = () => {
   return (
@@ -8,22 +9,30 @@ const Navbar = () => {
         <h1>Project Approval System</h1>
       </div>
       <div className="flex items-center gap-2">
-        <ul className="flex gap-4 mx-3">
+        <ul className="flex gap-4 mx-3 items-center ">
+          <li>
+            <ModeToggle />
+          </li>
           <li>
             <Link to="">Home</Link>
           </li>
-          <li>Projects</li>
-          <li>Users</li>
+          <li>
+            <Link to="student/login" className="px-3">
+              Log In
+            </Link>
+          </li>
+          <li>
+            {" "}
+            <Link to="student/register" className="px-3">
+              Sign Up
+            </Link>
+          </li>
+          <li>
+            <Link to="Logout" className="px-3">
+              Log Out
+            </Link>
+          </li>
         </ul>
-        <Link to="login" className="px-3">
-          Log In
-        </Link>
-        <Link to="register" className="px-3">
-          Sign Up
-        </Link>
-        <Link to="Logout" className="px-3">
-          Log Out
-        </Link>
       </div>
     </div>
   );
