@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ModeToggle } from "./Theme-toggle";
 import { Button } from "./ui/button";
+import StudentLogout from "@/pages/Student/StudentLogout";
 
 const Navbar = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleLogoutClick = () => {
+    setIsDialogOpen(true);
+  };
+
   return (
     <div className="flex items-center justify-between p-4 ">
       <div className="text-2xl">
@@ -32,9 +39,13 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="student/Logout">
-              <Button variant="outline">Log Out</Button>
-            </Link>
+            <Button variant="outline" onClick={handleLogoutClick}>
+              Log Out
+            </Button>
+            <StudentLogout
+              isDialogOpen={isDialogOpen}
+              setIsDialogOpen={setIsDialogOpen}
+            />
           </li>
         </ul>
       </div>

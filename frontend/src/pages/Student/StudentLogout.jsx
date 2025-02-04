@@ -1,11 +1,20 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import axiosInstance from "@/utils/axiosInstance";
 import { useStudent } from "@/contexts/StudentContext";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
-const StudentLogout = () => {
+const StudentLogout = ({ isDialogOpen, setIsDialogOpen }) => {
   const { logoutStudent } = useStudent();
 
   const handleLogout = async () => {
@@ -13,9 +22,9 @@ const StudentLogout = () => {
       .post("/students/logout")
       .then((response) => {
         toast.success(response.data.message);
-        console.log(response.data);
         Cookies.remove("token");
         logoutStudent();
+        setIsDialogOpen(false);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -23,18 +32,24 @@ const StudentLogout = () => {
       });
   };
 
-  const confirmLogout = async () => {
-    if (window.confirm("Are you sure you want to logout?")) {
-      await handleLogout();
-    }
-  };
-
   return (
-    <div className="h-screen w-full flex justify-center items-center">
-      <Button onClick={confirmLogout} className="bg-red-500 text-white">
-        Logout
-      </Button>
-    </div>
+    <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will log you out of the system
+            and you will need to log in again to access your account.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={handleLogout}>Log out</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 
