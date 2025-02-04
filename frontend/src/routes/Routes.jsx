@@ -18,10 +18,12 @@ import {
   FacultyHome,
   FacultyLogin,
   FacultyRegister,
+  FacultyLogout,
   FacultyForgotPassword,
   FacultyProfile,
 } from "@/pages/Faculty";
 import { StudentProvider, useStudent } from "@/contexts/StudentContext";
+import { FacultyProvider, useFaculty } from "@/contexts/FacultyContext";
 import { Outlet } from "react-router-dom";
 
 const StudentRoutes = () => {
@@ -34,10 +36,21 @@ const StudentRoutes = () => {
   return <Outlet />;
 };
 
+const FacultyRoutes = () => {
+  const { fetchFacultyDetails } = useFaculty();
+
+  useEffect(() => {
+    fetchFacultyDetails();
+  }, []);
+
+  return <Outlet />;
+};
+
 const Routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
+
       <Route
         path="student"
         element={
@@ -53,10 +66,19 @@ const Routes = createBrowserRouter(
         <Route path="profile" element={<StudentProfile />} />
         <Route path="forgotpassword" element={<StudentForgotPassword />} />
       </Route>
-      <Route path="faculty">
+
+      <Route
+        path="faculty"
+        element={
+          <FacultyProvider>
+            <FacultyRoutes />
+          </FacultyProvider>
+        }
+      >
         <Route index element={<FacultyHome />} />
         <Route path="login" element={<FacultyLogin />} />
         <Route path="register" element={<FacultyRegister />} />
+        <Route path="logout" element={<FacultyLogout />} />
         <Route path="profile" element={<FacultyProfile />} />
         <Route path="forgotpassword" element={<FacultyForgotPassword />} />
       </Route>

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useFaculty } from "@/contexts/FacultyContext";
 
 const FacultyProfile = () => {
-  const [facultyDetails, setFacultyDetails] = useState({});
-  const [assignedProjects, setAssignedProjects] = useState([]);
+  const { faculty, assignedProjects } = useFaculty();
+
+  const { fullName, email, department, designation } = faculty;
 
   useEffect(() => {
     // Fetch faculty details and projects from an API or data source
@@ -36,10 +38,10 @@ const FacultyProfile = () => {
                 ></path>
               </svg>
               <div className="text-left pl-4">
-                <p>Name: {facultyDetails.fullName}</p>
-                <p>Email: {facultyDetails.email}</p>
-                <p>Department: {facultyDetails.department}</p>
-                <p>Designation: {facultyDetails.designation}</p>
+                <p>Name: {fullName}</p>
+                <p>Email: {email}</p>
+                <p>Department: {department}</p>
+                <p>Designation: {designation}</p>
               </div>
             </div>
             <div className="flex flex-col gap-4">
@@ -56,17 +58,15 @@ const FacultyProfile = () => {
         <CardContent>
           {assignedProjects.length > 0 ? (
             <ul>
-              {assignedProjects.map((assignedProjects, index) => (
+              {assignedProjects.map((project, index) => (
                 <li key={index} className="mb-2">
-                  <h3 className="text-xl font-medium">
-                    {assignedProjects.title}
-                  </h3>
-                  <p>{assignedProjects.description}</p>
+                  <h3 className="text-xl font-medium">{project.title}</h3>
+                  <p>{project.description}</p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No projects have been Assigned.</p>
+            <p>No projects have been assigned.</p>
           )}
         </CardContent>
       </Card>
