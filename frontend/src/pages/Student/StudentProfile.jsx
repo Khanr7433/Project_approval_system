@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useStudent } from "@/contexts/StudentContext";
 
 const StudentProfile = () => {
-  const [studentDetails, setStudentDetails] = useState({});
-  const [projects, setProjects] = useState([]);
+  const { student, projects } = useStudent();
+
+  const { fullName, rollNo, email, year, department } = student;
 
   useEffect(() => {
     // Fetch student details and projects from an API or data source
@@ -24,7 +26,7 @@ const StudentProfile = () => {
           <div className="flex flex-row justify-between">
             <div className="flex items-center">
               <svg
-                className="border border-white rounded-full mr-4 w-16 h-16 p-2 text-gray-400 -left-1"
+                className="border-2 rounded-full mr-4 w-16 h-16 p-2  -left-1"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -36,15 +38,17 @@ const StudentProfile = () => {
                 ></path>
               </svg>
               <div className="text-left pl-4">
-                <p>Name: {studentDetails.fullName}</p>
-                <p>Roll No: {studentDetails.rollNo}</p>
-                <p>Email: {studentDetails.email}</p>
-                <p>Academic Year: {studentDetails.year}</p>
-                <p>Department: {studentDetails.department}</p>
+                <p>Name : {fullName}</p>
+                <p>Roll No : {rollNo}</p>
+                <p>Email : {email}</p>
+                <p>Academic Year : {year}</p>
+                <p>Department : {department}</p>
               </div>
             </div>
             <div className="flex flex-col gap-4">
+              {/* update profile  */}
               <Button variant="outline">Update Profile</Button>
+              {/* change password */}
               <Button variant="outline">Change Password</Button>
             </div>
           </div>

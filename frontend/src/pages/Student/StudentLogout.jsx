@@ -3,8 +3,11 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import axiosInstance from "@/utils/axiosInstance";
+import { useStudent } from "@/contexts/StudentContext";
 
 const StudentLogout = () => {
+  const { logoutStudent } = useStudent();
+
   const handleLogout = async () => {
     await axiosInstance
       .post("/students/logout")
@@ -12,6 +15,7 @@ const StudentLogout = () => {
         toast.success(response.data.message);
         console.log(response.data);
         Cookies.remove("token");
+        logoutStudent();
       })
       .catch((error) => {
         toast.error(error.message);

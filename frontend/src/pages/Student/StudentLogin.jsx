@@ -8,12 +8,13 @@ import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import axiosInstance from "@/utils/axiosInstance";
 import { loginSchema } from "@/validation/studentValidation";
-import { Underline } from "lucide-react";
+import { useStudent } from "@/contexts/StudentContext";
 
 const StudentLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const { loginStudent } = useStudent();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -38,7 +39,7 @@ const StudentLogin = () => {
       .then((response) => {
         toast.success(response.data.message);
         Cookies.set("token", response.data.token);
-        console.log(response.data);
+        loginStudent(response.data.data);
       })
       .catch((error) => {
         toast.error(error.message);

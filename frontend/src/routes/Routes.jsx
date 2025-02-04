@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import {
   Route,
   createBrowserRouter,
@@ -21,12 +21,31 @@ import {
   FacultyForgotPassword,
   FacultyProfile,
 } from "@/pages/Faculty";
+import { StudentProvider, useStudent } from "@/contexts/StudentContext";
+import { Outlet } from "react-router-dom";
+
+const StudentRoutes = () => {
+  const { fetchStudentDetails } = useStudent();
+
+  useEffect(() => {
+    fetchStudentDetails();
+  }, []);
+
+  return <Outlet />;
+};
 
 const Routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
-      <Route path="student">
+      <Route
+        path="student"
+        element={
+          <StudentProvider>
+            <StudentRoutes />
+          </StudentProvider>
+        }
+      >
         <Route index element={<StudentHome />} />
         <Route path="login" element={<StudentLogin />} />
         <Route path="register" element={<StudentRegister />} />

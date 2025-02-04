@@ -265,8 +265,15 @@ const getStudentProfile = asyncHandler(async (req, res) => {
 
     return res
       .status(200)
+
       .json(
-        new apiResponse(200, student, "Student profile fetched successfully")
+        new apiResponse(
+          200,
+          {
+            student: student,
+          },
+          "Student profile fetched successfully"
+        )
       );
   } catch (error) {
     throw new apiError(401, error?.message || "Something went wrong!");

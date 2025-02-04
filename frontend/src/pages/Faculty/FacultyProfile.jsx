@@ -24,7 +24,7 @@ const FacultyProfile = () => {
           <div className="flex flex-row justify-between">
             <div className="flex items-center">
               <svg
-                className="border border-white rounded-full mr-4 w-16 h-16 p-2 text-gray-400 -left-1"
+                className="border-2 rounded-full mr-4 w-16 h-16 p-2 -left-1"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
