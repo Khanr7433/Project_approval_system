@@ -5,14 +5,18 @@ import { Button } from "./ui/button";
 
 const Navbar = () => {
   return (
-    <div className="flex  items-center justify-between p-4 bg-blend-color-burn text-white mx-3">
+    <div className="flex items-center justify-between p-4 ">
       <div className="text-2xl">
-        <h1>Project Approval System</h1>
+        <Link to="">
+          <h1 className="font-bold">Project Approval System</h1>
+        </Link>
       </div>
       <div className="flex items-center gap-2">
-        <ul className="flex gap-4 mx-3 items-center ">
+        <ul className="flex gap-4 mx-3 items-center">
           <li>
-            <Link to="">Home</Link>
+            <Link to="" className="hover:underline ">
+              Home
+            </Link>
           </li>
           <li>
             <ModeToggle />
@@ -23,7 +27,6 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            {" "}
             <Link to="student/register">
               <Button variant="outline">Sign Up</Button>
             </Link>

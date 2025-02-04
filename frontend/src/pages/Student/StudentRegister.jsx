@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 import axiosInstance from "@/utils/axiosInstance";
 import React, { useState } from "react";
 import { studentSchema } from "@/validation/studentValidation";
@@ -71,10 +73,12 @@ const StudentRegister = () => {
   };
 
   return (
-    <>
-      <div className="h-screen w-full flex justify-center items-center">
-        <div className="flex flex-col items-center justify-center border border-red-600 rounded-lg p-4 md:p-10 w-full max-w-md">
-          <h1 className="text-2xl mb-4">Register Student</h1>
+    <div className="min-h-screen w-full flex justify-center items-center">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <h1 className="text-2xl mb-4 text-center">Register Student</h1>
+        </CardHeader>
+        <CardContent>
           <form className="flex flex-col gap-4 w-full">
             <div className="grid w-full items-center gap-1.5">
               <Label htmlFor="fullName" id="fullName">
@@ -202,9 +206,17 @@ const StudentRegister = () => {
               Register
             </Button>
           </form>
-        </div>
-      </div>
-    </>
+          <div className="mt-4 text-center">
+            <p>
+              Already have an account?{" "}
+              <Link to="/student/login" className="underline">
+                Login
+              </Link>
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
