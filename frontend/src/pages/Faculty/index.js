@@ -6,7 +6,6 @@ import FacultyProfile from "./FacultyProfile";
 import FacultyChangePassword from "./FacultyChangePassword";
 import FacultyResetPassword from "./FacultyResetPassword";
 import FacultyForgotPassword from "./FacultyForgotPassword";
-FacultyForgotPassword;
 
 export {
   FacultyHome,
