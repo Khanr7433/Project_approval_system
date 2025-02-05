@@ -45,6 +45,9 @@ const StudentLogin = () => {
         toast.error(error.message);
         console.log(error);
       });
+
+    setEmail("");
+    setPassword("");
   };
 
   return (

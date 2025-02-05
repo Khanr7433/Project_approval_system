@@ -1,9 +1,12 @@
 import FacultyHome from "./FacultyHome";
 import FacultyLogin from "./FacultyLogin";
+import FacultyLogout from "./FacultyLogout";
 import FacultyRegister from "./FacultyRegister";
 import FacultyProfile from "./FacultyProfile";
+import FacultyChangePassword from "./FacultyChangePassword";
+import FacultyResetPassword from "./FacultyResetPassword";
 import FacultyForgotPassword from "./FacultyForgotPassword";
-import FacultyLogout from "./FacultyLogout";
+FacultyForgotPassword;
 
 export {
   FacultyHome,
@@ -11,5 +14,7 @@ export {
   FacultyRegister,
   FacultyLogout,
   FacultyProfile,
+  FacultyChangePassword,
+  FacultyResetPassword,
   FacultyForgotPassword,
 };

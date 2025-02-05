@@ -15,8 +15,8 @@ const router = Router();
 router.route("/register").post(registerStudent);
 router.route("/login").post(loginStudent);
 router.route("/logout").post(authenticateStudent, logoutStudent);
-router.route("/changePassword").post(authenticateStudent, changePassword);
-router.route("/forgotPassword").post(forgotPassword);
+router.route("/changepassword").post(authenticateStudent, changePassword);
+router.route("/forgotpassword").post(forgotPassword);
 router.route("/resetPassword/:passwordResetToken").post(resetPassword);
 router.route("/profile").get(authenticateStudent, getStudentProfile);
 

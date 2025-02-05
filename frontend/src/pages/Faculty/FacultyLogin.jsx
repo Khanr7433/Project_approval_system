@@ -45,6 +45,9 @@ const FacultyLogin = () => {
         toast.error(error.message);
         console.log(error);
       });
+
+    setEmail("");
+    setPassword("");
   };
 
   return (

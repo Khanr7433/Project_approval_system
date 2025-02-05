@@ -12,14 +12,14 @@ import {
   StudentLogout,
   StudentRegister,
   StudentProfile,
-  StudentForgotPassword,
+  StudentChangePassword,
 } from "@/pages/Student";
 import {
   FacultyHome,
   FacultyLogin,
   FacultyRegister,
   FacultyLogout,
-  FacultyForgotPassword,
+  FacultyChangePassword,
   FacultyProfile,
 } from "@/pages/Faculty";
 import { StudentProvider, useStudent } from "@/contexts/StudentContext";
@@ -64,7 +64,7 @@ export const Routes = createBrowserRouter(
         <Route path="register" element={<StudentRegister />} />
         <Route path="logout" element={<StudentLogout />} />
         <Route path="profile" element={<StudentProfile />} />
-        <Route path="forgotpassword" element={<StudentForgotPassword />} />
+        <Route path="changepassword" element={<StudentChangePassword />} />
       </Route>
 
       <Route
@@ -80,7 +80,7 @@ export const Routes = createBrowserRouter(
         <Route path="register" element={<FacultyRegister />} />
         <Route path="logout" element={<FacultyLogout />} />
         <Route path="profile" element={<FacultyProfile />} />
-        <Route path="forgotpassword" element={<FacultyForgotPassword />} />
+        <Route path="changepassword" element={<FacultyChangePassword />} />
       </Route>
     </Route>
   )
