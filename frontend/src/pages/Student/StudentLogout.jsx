@@ -12,8 +12,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useNavigate } from "react-router-dom";
 
 const StudentLogout = ({ isDialogOpen, setIsDialogOpen, logoutStudent }) => {
+  const navigate = useNavigate();
   const logout = () => {
     logoutStudent;
   };
@@ -28,6 +30,7 @@ const StudentLogout = ({ isDialogOpen, setIsDialogOpen, logoutStudent }) => {
         Cookies.remove("token");
         setIsDialogOpen(false);
         logout();
+        navigate("/");
       })
       .catch((error) => {
         toast.error(error.message);

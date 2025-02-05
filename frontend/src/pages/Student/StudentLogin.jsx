@@ -15,6 +15,7 @@ const StudentLogin = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { loginStudent } = useStudent();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ const StudentLogin = () => {
     }
 
     await axiosInstance
-      .post("/students/login", {
+      .post("/student/login", {
         email: email,
         password: password,
       })
@@ -40,6 +41,7 @@ const StudentLogin = () => {
         toast.success(response.data.message);
         Cookies.set("token", response.data.token);
         loginStudent(response.data.data);
+        navigate("/student");
       })
       .catch((error) => {
         toast.error(error.message);

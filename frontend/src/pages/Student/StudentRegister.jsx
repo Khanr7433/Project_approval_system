@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "@/utils/axiosInstance";
 import React, { useState } from "react";
 import { studentSchema } from "@/validation/studentValidation";
@@ -24,6 +24,7 @@ const StudentRegister = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -59,6 +60,7 @@ const StudentRegister = () => {
       .then((response) => {
         console.log(response.data);
         toast.success(response.data.message);
+        navigate("/student/login");
       })
       .catch((error) => {
         handleError(error);

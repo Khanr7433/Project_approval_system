@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import toast from "react-hot-toast";
 import axiosInstance from "@/utils/axiosInstance";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 
 const passwordSchema = z.object({
   oldPassword: z.string().min(1, "Old password is required"),
@@ -18,6 +19,7 @@ const StudentChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +40,7 @@ const StudentChangePassword = () => {
       })
       .then((response) => {
         toast.success(response.data.message);
+        navigate("/student/profile");
       })
       .catch((error) => {
         toast.error(error.response.data.message || "Something went wrong!");

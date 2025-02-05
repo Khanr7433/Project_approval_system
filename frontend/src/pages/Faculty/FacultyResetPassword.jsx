@@ -43,7 +43,7 @@ const FacultyResetPassword = () => {
     }
 
     await axiosInstance
-      .post(`/faculty/resetpassword/${passwordResetToken}`, {
+      .post(`/faculty/resetPassword/${passwordResetToken}`, {
         password,
         confirmPassword,
       })

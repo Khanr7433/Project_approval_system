@@ -43,13 +43,13 @@ const StudentResetPassword = () => {
     }
 
     await axiosInstance
-      .post(`/students/resetpassword/${passwordResetToken}`, {
+      .post(`/students/resetPassword/${passwordResetToken}`, {
         password,
         confirmPassword,
       })
       .then((response) => {
         toast.success(response.data.message);
-        navigate("/students/login");
+        navigate("/student/login");
       })
       .catch((error) => {
         toast.error(error.message);

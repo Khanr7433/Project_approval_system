@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/utils/axiosInstance";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 
 const emailSchema = z
   .string()
@@ -15,6 +16,7 @@ const emailSchema = z
 const StudentForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
@@ -31,6 +33,7 @@ const StudentForgotPassword = () => {
       .post("/students/forgotpassword", { email })
       .then((response) => {
         toast.success(response.data.message);
+        navigate("/student/login");
       })
       .catch((error) => {
         toast.error(error.message);
