@@ -1,9 +1,7 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import axiosInstance from "@/utils/axiosInstance";
-import { useFaculty } from "@/contexts/FacultyContext";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,20 +11,23 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-const FacultyLogout = () => {
-  const { logoutFaculty } = useFaculty();
+const FacultyLogout = ({ isDialogOpen, setIsDialogOpen, logoutFaculty }) => {
+  const logout = () => {
+    logoutFaculty;
+  };
 
-  const handleLogout = async () => {
+  const handleLogout = async (e) => {
+    e.preventDefault();
+
     await axiosInstance
       .post("/faculty/logout")
       .then((response) => {
         toast.success(response.data.message);
-        console.log(response.data);
         Cookies.remove("token");
-        logoutFaculty();
+        setIsDialogOpen(false);
+        logout();
       })
       .catch((error) => {
         toast.error(error.message);
@@ -34,26 +35,21 @@ const FacultyLogout = () => {
       });
   };
 
-  const confirmLogout = async () => {
-    if (window.confirm("Are you sure you want to logout?")) {
-      await handleLogout();
-    }
-  };
-
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>Open</AlertDialogTrigger>
+    <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            This action cannot be undone. This will log you out of the system
+            and you will need to log in again to access your account.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={handleLogout}>Log out</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

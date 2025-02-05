@@ -9,10 +9,10 @@ import Home from "@/pages/Home";
 import {
   StudentHome,
   StudentLogin,
+  StudentLogout,
   StudentRegister,
   StudentProfile,
   StudentForgotPassword,
-  StudentLogout,
 } from "@/pages/Student";
 import {
   FacultyHome,
@@ -27,26 +27,26 @@ import { FacultyProvider, useFaculty } from "@/contexts/FacultyContext";
 import { Outlet } from "react-router-dom";
 
 const StudentRoutes = () => {
-  const { fetchStudentDetails } = useStudent();
+  const { fetchStudentDetails, logoutStudent } = useStudent();
 
   useEffect(() => {
     fetchStudentDetails();
-  }, []);
+  }, [fetchStudentDetails]);
 
-  return <Outlet />;
+  return <Outlet logoutStudent={logoutStudent} />;
 };
 
 const FacultyRoutes = () => {
-  const { fetchFacultyDetails } = useFaculty();
+  const { fetchFacultyDetails, logoutFaculty } = useFaculty();
 
   useEffect(() => {
     fetchFacultyDetails();
-  }, []);
+  }, [fetchFacultyDetails]);
 
-  return <Outlet />;
+  return <Outlet logoutFaculty={logoutFaculty} />;
 };
 
-const Routes = createBrowserRouter(
+export const Routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />

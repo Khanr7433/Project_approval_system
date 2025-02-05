@@ -10,11 +10,17 @@ export const facultySchema = z.object({
     ["Assistant Professor", "Associate Professor", "Professor"],
     "Designation must be one of Assistant Professor, Associate Professor, Professor"
   ),
-  email: z.string().email("Invalid email format"),
-  password: z.string().nonempty("Password is required"),
+  email: z.string().email("Invalid email format").nonempty("Email is required"),
+  password: z
+    .string()
+    .nonempty("Password is required")
+    .min(6, "Password must be at least 6 characters"),
 });
 
 export const loginSchema = z.object({
-  email: z.string().email("Invalid email format"),
-  password: z.string().nonempty("Password is required"),
+  email: z.string().email("Invalid email format").nonempty("Email is required"),
+  password: z
+    .string()
+    .nonempty("Password is required")
+    .min(6, "Password must be at least 6 characters"),
 });

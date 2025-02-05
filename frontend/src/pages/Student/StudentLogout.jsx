@@ -2,7 +2,6 @@ import React from "react";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import axiosInstance from "@/utils/axiosInstance";
-import { useStudent } from "@/contexts/StudentContext";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,17 +13,21 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-const StudentLogout = ({ isDialogOpen, setIsDialogOpen }) => {
-  const { logoutStudent } = useStudent();
+const StudentLogout = ({ isDialogOpen, setIsDialogOpen, logoutStudent }) => {
+  const logout = () => {
+    logoutStudent;
+  };
 
-  const handleLogout = async () => {
+  const handleLogout = async (e) => {
+    e.preventDefault();
+
     await axiosInstance
       .post("/students/logout")
       .then((response) => {
         toast.success(response.data.message);
         Cookies.remove("token");
-        logoutStudent();
         setIsDialogOpen(false);
+        logout();
       })
       .catch((error) => {
         toast.error(error.message);

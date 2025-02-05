@@ -8,11 +8,17 @@ export const studentSchema = z.object({
     ["BCA", "BBA-CA"],
     "Department must be one of BCA, BBA-CA"
   ),
-  email: z.string().email("Invalid email format"),
-  password: z.string().nonempty("Password is required"),
+  email: z.string().email("Invalid email format").nonempty("Email is required"),
+  password: z
+    .string()
+    .nonempty("Password is required")
+    .min(6, "Password must be at least 6 characters"),
 });
 
 export const loginSchema = z.object({
-  email: z.string().email("Invalid email format"),
-  password: z.string().nonempty("Password is required"),
+  email: z.string().email("Invalid email format").nonempty("Email is required"),
+  password: z
+    .string()
+    .nonempty("Password is required")
+    .min(6, "Password must be at least 6 characters"),
 });

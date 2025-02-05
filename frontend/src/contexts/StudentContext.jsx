@@ -41,7 +41,9 @@ export const StudentProvider = ({ children }) => {
     <StudentContext.Provider
       value={{
         student,
+        setStudent,
         projects,
+        setProjects,
         loginStudent,
         logoutStudent,
         fetchStudentDetails,
