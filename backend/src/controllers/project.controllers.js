@@ -64,13 +64,32 @@ const uploadProject = asyncHandler(async (req, res) => {
   }
 });
 
-const getProjects = asyncHandler(async (req, res) => {
+const getAllProjects = asyncHandler(async (req, res) => {
   try {
-    // get all projects
     const projects = await Project.find();
 
     if (!projects) {
       throw new apiError(404, "No projects found!");
+    }
+
+    return res
+      .status(200)
+      .json(
+        new apiResponse(200, { projects }, "Projects fetched successfully!")
+      );
+  } catch (error) {
+    throw new apiError(401, error?.message || "Something went wrong!");
+  }
+});
+
+const getProjectByStudentId = asyncHandler(async (req, res) => {
+  try {
+    const studentId = req.student._id;
+
+    const projects = await Project.find({ byStudent: studentId });
+
+    if (!projects) {
+      throw new apiError(404, "No projects found for this student!");
     }
 
     return res
@@ -145,7 +164,8 @@ const deleteProject = asyncHandler(async (req, res) => {
 
 export {
   uploadProject,
-  getProjects,
+  getAllProjects,
+  getProjectByStudentId,
   approveProject,
   rejectProject,
   deleteProject,
