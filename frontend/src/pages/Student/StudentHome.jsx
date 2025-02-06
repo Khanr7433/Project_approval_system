@@ -10,10 +10,10 @@ const StudentHome = () => {
         <br /> Project Approval System
       </h1>
       <div className="flex flex-col md:flex-row gap-4">
-        <Link to="/student/submit-project">
+        <Link to="/student/submitproject">
           <Button className="border">Submit New Project</Button>
         </Link>
-        <Link to="/student/view-projects">
+        <Link to="/student/viewproject">
           <Button className="border">View Submitted Projects</Button>
         </Link>
       </div>

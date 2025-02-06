@@ -3,17 +3,12 @@ import apiError from "../utils/apiError.js";
 import apiResponse from "../utils/apiResponse.js";
 import { Project } from "../models/project.models.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import fs from "fs";
 
 const uploadProject = asyncHandler(async (req, res) => {
   try {
     if (!req.student) {
       throw new apiError(401, "Unauthorized!");
-    }
-
-    const projects = await Project.find({ byStudent: req.student._id });
-
-    if (projects.length >= 2) {
-      throw new apiError(400, "You have already uploaded two projects!");
     }
 
     const { title, description } = req.body;
@@ -22,10 +17,17 @@ const uploadProject = asyncHandler(async (req, res) => {
       throw new apiError(400, "Title and description are required!");
     }
 
-    const synopsisLocalPath = req.file.path;
+    const synopsisLocalPath = req.file?.path;
 
     if (!synopsisLocalPath) {
       throw new apiError(400, "Synopsis is required!");
+    }
+
+    const projects = await Project.find({ byStudent: req.student._id });
+
+    if (projects.length >= 2) {
+      fs.unlinkSync(synopsisLocalPath);
+      throw new apiError(400, "You have already uploaded two projects!");
     }
 
     const synopsis = await uploadOnCloudinary(synopsisLocalPath);

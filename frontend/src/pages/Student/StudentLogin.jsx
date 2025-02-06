@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
@@ -33,7 +33,7 @@ const StudentLogin = () => {
     }
 
     await axiosInstance
-      .post("/student/login", {
+      .post("/students/login", {
         email: email,
         password: password,
       })

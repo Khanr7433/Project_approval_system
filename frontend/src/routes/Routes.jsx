@@ -13,6 +13,8 @@ import {
   StudentRegister,
   StudentProfile,
   StudentChangePassword,
+  StudentSubmitProject,
+  StudentViewProjects,
 } from "@/pages/Student";
 import {
   FacultyHome,
@@ -65,6 +67,8 @@ export const Routes = createBrowserRouter(
         <Route path="logout" element={<StudentLogout />} />
         <Route path="profile" element={<StudentProfile />} />
         <Route path="changepassword" element={<StudentChangePassword />} />
+        <Route path="submitproject" element={<StudentSubmitProject />} />
+        <Route path="viewprojects" element={<StudentViewProjects />} />
       </Route>
 
       <Route
