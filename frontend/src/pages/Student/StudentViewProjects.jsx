@@ -2,25 +2,23 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import toast from "react-hot-toast";
+import { handleError } from "@/utils/htmlErrorHandler";
 
 const StudentViewProjects = () => {
   const [project, setProject] = useState([]);
 
   useEffect(() => {
     const fetchProjects = async () => {
-      try {
-        const response = await axiosInstance
-          .get("/projects/getprojectbystudentid")
-          .then((response) => {
-            toast.success(response.data.message);
-            console.log(response.data.data.projects);
-            setProject(response.data.data.projects);
-          });
-      } catch (error) {
-        toast.error("Error fetching projects");
-      }
+      await axiosInstance
+        .get("/projects/getprojectbystudentid")
+        .then((response) => {
+          toast.success(response.data.message);
+          setProject(response.data.data.projects);
+        })
+        .catch((error) => {
+          toast.error("Error fetching projects");
+        });
     };
-
     fetchProjects();
   }, []);
 

@@ -9,10 +9,12 @@ import axiosInstance from "@/utils/axiosInstance";
 import { projectSchema } from "@/validation/projectValidation";
 import pdfLogo from "@/assets/pdfLogo.png";
 import { handleError } from "@/utils/htmlErrorHandler";
+import { Textarea } from "@/components/ui/textarea";
 
 const StudentSubmitProject = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [teamMembers, setTeamMembers] = useState([]);
   const [synopsis, setSynopsis] = useState(null);
   const [errors, setErrors] = useState({});
 
@@ -25,6 +27,7 @@ const StudentSubmitProject = () => {
     const validationResult = projectSchema.safeParse({
       title,
       description,
+      teamMembers,
       synopsis,
     });
 
@@ -34,9 +37,12 @@ const StudentSubmitProject = () => {
       return;
     }
 
+    // console.log(errors.teamMembers._errors);
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
+    formData.append("teamMembers", JSON.stringify(teamMembers));
     formData.append("synopsis", synopsis);
 
     await axiosInstance
@@ -51,6 +57,7 @@ const StudentSubmitProject = () => {
 
     setTitle("");
     setDescription("");
+    setTeamMembers([]);
     setSynopsis(null);
   };
 
@@ -82,15 +89,36 @@ const StudentSubmitProject = () => {
               <Label htmlFor="description" id="description">
                 Description
               </Label>
-              <Input
+              <Textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 id="description"
-                type="text"
-                placeholder="Enter project description"
+                rows="2"
+                placeholder="Enter project's description (Min 25 characters)"
+                className="border rounded p-2"
               />
               {errors.description && (
                 <p className="text-red-600">{errors.description._errors[0]}</p>
+              )}
+            </div>
+
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="teamMembers" id="teamMembers">
+                Team Members (comma-separated emails)
+              </Label>
+              <Input
+                value={teamMembers.join(", ")}
+                onChange={(e) =>
+                  setTeamMembers(
+                    e.target.value.split(",").map((email) => email.trim())
+                  )
+                }
+                id="teamMembers"
+                type="text"
+                placeholder="Enter team member's emails"
+              />
+              {errors.teamMembers && (
+                <p className="text-red-600">{errors.teamMembers._errors}</p>
               )}
             </div>
 
@@ -121,7 +149,7 @@ const StudentSubmitProject = () => {
                     </svg>
                     <p className="mb-2 text-sm">
                       <span className="font-semibold">Click to upload</span> or{" "}
-                      <span className="font-semibold">drag and drop</span>
+                      <span className="font-semibold">Drag and drop</span>
                     </p>
                     <p className="text-xs">PDF (MAX. 5MB)</p>
                   </div>
@@ -136,7 +164,7 @@ const StudentSubmitProject = () => {
               {errors.synopsis && (
                 <p className="text-red-600">{errors.synopsis._errors[0]}</p>
               )}
-              {/* Display uploaded file and its metadata */}
+
               {synopsis && (
                 <div className="mt-4 p-2 border rounded flex items-center">
                   <img

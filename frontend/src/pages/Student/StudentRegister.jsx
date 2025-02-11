@@ -45,9 +45,6 @@ const StudentRegister = () => {
       return;
     }
 
-    console.log("Registering student");
-    console.log({ fullName, rollNo, year, department, email, password });
-
     await axiosInstance
       .post("/students/register", {
         fullName: fullName,
@@ -58,7 +55,6 @@ const StudentRegister = () => {
         password: password,
       })
       .then((response) => {
-        console.log(response.data);
         toast.success(response.data.message);
         navigate("/student/login");
       })

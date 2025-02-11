@@ -10,7 +10,7 @@ const authenticateStudent = asyncHandler(async (req, res, next) => {
       req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
-      throw new apiError(401, "Unauthorized");
+      throw new apiError(401, "Unauthorized! Please login");
     }
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
