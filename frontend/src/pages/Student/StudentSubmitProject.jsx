@@ -37,8 +37,6 @@ const StudentSubmitProject = () => {
       return;
     }
 
-    // console.log(errors.teamMembers._errors);
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
@@ -116,6 +114,7 @@ const StudentSubmitProject = () => {
                 id="teamMembers"
                 type="text"
                 placeholder="Enter team member's emails"
+                multiple
               />
               {errors.teamMembers && (
                 <p className="text-red-600">{errors.teamMembers._errors}</p>

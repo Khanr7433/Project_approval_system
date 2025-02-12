@@ -5,7 +5,6 @@ const StudentContext = createContext();
 
 export const StudentProvider = ({ children }) => {
   const [student, setStudent] = useState({});
-  const [projects, setProjects] = useState([]);
 
   const loginStudent = (studentData) => {
     const studentDetails = {
@@ -16,15 +15,11 @@ export const StudentProvider = ({ children }) => {
       rollNo: studentData.student.rollNo || "",
     };
 
-    const studentProjects = studentData.student.projects;
-
     setStudent(studentDetails);
-    setProjects(studentProjects);
   };
 
   const logoutStudent = () => {
     setStudent({});
-    setProjects([]);
   };
 
   const fetchStudentDetails = async () => {
@@ -42,8 +37,6 @@ export const StudentProvider = ({ children }) => {
       value={{
         student,
         setStudent,
-        projects,
-        setProjects,
         loginStudent,
         logoutStudent,
         fetchStudentDetails,

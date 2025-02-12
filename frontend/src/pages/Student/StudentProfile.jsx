@@ -2,17 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useStudent } from "@/contexts/StudentContext";
+import axiosInstance from "@/utils/axiosInstance";
+import toast from "react-hot-toast";
 
 const StudentProfile = () => {
-  const { student, projects } = useStudent();
-
+  const { student } = useStudent();
   const { fullName, rollNo, email, year, department } = student;
+  const [project, setProject] = useState([]);
 
   useEffect(() => {
-    // Fetch student details and projects from an API or data source
-    // Example:
-    // setStudentDetails({ name: "John Doe", age: 21, major: "Computer Science" });
-    // setProjects([{ title: "Project 1", description: "Description 1" }, { title: "Project 2", description: "Description 2" }]);
+    const fetchProjects = async () => {
+      await axiosInstance
+        .get("/projects/getprojectbystudentid")
+        .then((response) => {
+          toast.success(response.data.message);
+          setProject(response.data.data.projects);
+        })
+        .catch((error) => {
+          toast.error("Error fetching projects");
+        });
+    };
+    fetchProjects();
   }, []);
 
   return (
@@ -59,13 +69,46 @@ const StudentProfile = () => {
           <h2 className="text-2xl font-semibold">Submitted Projects</h2>
         </CardHeader>
         <CardContent>
-          {projects.length > 0 ? (
+          {project.length > 0 ? (
             <ul>
-              {projects.map((project, index) => (
-                <li key={index} className="mb-2">
-                  <h3 className="text-xl font-medium">{project.title}</h3>
-                  <p>{project.description}</p>
-                </li>
+              {project.map((project, index) => (
+                <Card key={index} className="mb-2">
+                  <CardHeader>
+                    <h3 className="text-xl font-medium">
+                      Title : {project.title}
+                    </h3>
+                  </CardHeader>
+                  <CardContent className="flex flex-col gap-2">
+                    <p className="text-sm">
+                      Description : {project.description}
+                    </p>
+                    <p className="text-sm">
+                      Team Members : {project.byStudent}
+                    </p>
+
+                    <div className="flex flex-row gap-6 mb-1">
+                      <p className="text-sm">
+                        Submitted On :{" "}
+                        {new Date(project.createdAt).toLocaleDateString()}
+                      </p>
+                      <p className="text-sm">Status : {project.status}</p>
+                    </div>
+
+                    {project.status === "Approved" && (
+                      <p className="text-sm">Guide : {project.guide}</p>
+                    )}
+
+                    <div className="flex flex-row gap-4">
+                      <Button variant="outline">View Synopsis</Button>
+                      <Button
+                        variant="outline"
+                        className="text-red-600 hover:text-red-600"
+                      >
+                        Delete Project
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
             </ul>
           ) : (

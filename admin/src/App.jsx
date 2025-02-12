@@ -1,11 +1,13 @@
 import React from "react";
-import { Button } from "./components/ui/button";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/Routes";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <>
-      <Button>Click me</Button>
-      <div>App</div>
+      <RouterProvider router={router} />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };
