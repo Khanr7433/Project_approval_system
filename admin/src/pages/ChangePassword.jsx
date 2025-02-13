@@ -15,7 +15,7 @@ const passwordSchema = z.object({
     .min(6, "New password must be at least 6 characters long"),
 });
 
-const StudentChangePassword = () => {
+const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -41,13 +41,13 @@ const StudentChangePassword = () => {
     }
 
     await axiosInstance
-      .post("/students/changepassword", {
+      .post("/admin/changepassword", {
         oldPassword,
         newPassword,
       })
       .then((response) => {
         toast.success(response.data.message);
-        navigate("/student/profile");
+        navigate("/admin/profile");
       })
       .catch((error) => {
         toast.error(error.response.data.message || "Something went wrong!");
@@ -108,4 +108,4 @@ const StudentChangePassword = () => {
   );
 };
 
-export default StudentChangePassword;
+export default ChangePassword;
