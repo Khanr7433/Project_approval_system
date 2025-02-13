@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { Outlet, useNavigate } from "react-router-dom";
+import { AdminProvider } from "./contexts/AdminContext";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -14,9 +15,11 @@ const Layout = () => {
 
   return (
     <>
-      <Navbar />
-      <Outlet />
-      <Footer />
+      <AdminProvider>
+        <Navbar />
+        <Outlet />
+        <Footer />
+      </AdminProvider>
     </>
   );
 };

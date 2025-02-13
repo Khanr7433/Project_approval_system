@@ -9,7 +9,7 @@ const Home = () => {
         Welcome to the Admin Panel
         <br /> Project Approval System
       </h1>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-4 items-center">
         <Link to="/admin/approveprojects">
           <Button className="border">View Approved Projects</Button>
         </Link>
