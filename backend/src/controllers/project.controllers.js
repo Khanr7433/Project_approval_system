@@ -4,6 +4,7 @@ import apiResponse from "../utils/apiResponse.js";
 import { Project } from "../models/project.models.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import fs from "fs";
+import { Student } from "../models/student.models.js";
 
 const uploadProject = asyncHandler(async (req, res) => {
   try {
@@ -11,7 +12,7 @@ const uploadProject = asyncHandler(async (req, res) => {
       throw new apiError(401, "Unauthorized!");
     }
 
-    const { title, description } = req.body;
+    const { title, description, teamMembers } = req.body;
 
     if (!(title && description)) {
       throw new apiError(400, "Title and description are required!");
@@ -36,10 +37,23 @@ const uploadProject = asyncHandler(async (req, res) => {
       throw new apiError(500, "Failed to upload synopsis!");
     }
 
+    const teamMembersArray = JSON.parse(teamMembers);
+    const studentIds = [req.student._id];
+    const teamMemberIds = await Promise.all(
+      teamMembersArray.map(async (email) => {
+        const student = await Student.findOne({ email });
+        if (!student) {
+          throw new apiError(400, `Provide registered email!`);
+        }
+        return student._id;
+      })
+    );
+    studentIds.push(...teamMemberIds);
+
     const project = await Project.create({
       title,
       description,
-      byStudent: req.student._id,
+      byStudent: studentIds,
       synopsis: synopsis?.url || "",
     });
 
@@ -66,7 +80,7 @@ const uploadProject = asyncHandler(async (req, res) => {
 
 const getAllProjects = asyncHandler(async (req, res) => {
   try {
-    const projects = await Project.find();
+    const projects = await Project.find({}).populate("byStudent");
 
     if (!projects) {
       throw new apiError(404, "No projects found!");

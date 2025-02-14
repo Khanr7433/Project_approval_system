@@ -7,23 +7,6 @@ import { useAdmin } from "@/contexts/AdminContext";
 
 const Profile = () => {
   const { admin } = useAdmin();
-  const [projects, setProjects] = useState([]);
-
-  useEffect(() => {
-    const fetchAllProjects = async () => {
-      await axiosInstance
-        .get("/projects/getallprojects")
-        .then((response) => {
-          toast.success(response.data.message);
-          setProjects(response.data.data.projects);
-        })
-        .catch((error) => {
-          toast.error("Error fetching projects");
-        });
-    };
-
-    fetchAllProjects();
-  }, []);
 
   return (
     <div className="container mx-auto p-4">
@@ -50,7 +33,8 @@ const Profile = () => {
               <div className="text-left pl-4">
                 <p>Name : {admin.fullName}</p>
                 <p>Email : {admin.email}</p>
-                <p>Role : {admin.role}</p>
+                <p>Designation : {admin.designation}</p>
+                <p>Department : {admin.department}</p>
               </div>
             </div>
             <div className="flex flex-col gap-4">
@@ -58,57 +42,6 @@ const Profile = () => {
               <Button variant="outline">Change Password</Button>
             </div>
           </div>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <h2 className="text-2xl font-semibold">Projects to be Approved</h2>
-        </CardHeader>
-        <CardContent>
-          {projects.length > 0 ? (
-            <ul>
-              {projects.map((project, index) => (
-                <Card key={index} className="mb-2">
-                  <CardHeader>
-                    <h3 className="text-xl font-medium">
-                      Title : {project.title}
-                    </h3>
-                  </CardHeader>
-                  <CardContent className="flex flex-col gap-2">
-                    <p className="text-sm">
-                      Description : {project.description}
-                    </p>
-                    <p className="text-sm">
-                      Team Members : {project.byStudent}
-                    </p>
-                    <div className="flex flex-row gap-6 mb-1">
-                      <p className="text-sm">
-                        Submitted On :{" "}
-                        {new Date(project.createdAt).toLocaleDateString()}
-                      </p>
-                      <div className="flex flex-row gap-4">
-                        <Button variant="outline">View Synopsis</Button>
-                        <Button
-                          variant="outline"
-                          className="text-green-600 hover:text-green-600"
-                        >
-                          Approve
-                        </Button>
-                        <Button
-                          variant="outline"
-                          className="text-red-600 hover:text-red-600"
-                        >
-                          Reject
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </ul>
-          ) : (
-            <p>No projects available to be approved.</p>
-          )}
         </CardContent>
       </Card>
     </div>

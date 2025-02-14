@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ModeToggle } from "./Theme-toggle";
 import { Button } from "./ui/button";
 import { Logout } from "@/pages";
-import { useAdmin } from "@/contexts/AdminContext";
 
 const Navbar = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { admin } = useAdmin();
-
-  const adminDetails = admin;
-  console.log(adminDetails);
 
   const handleLogoutClick = () => {
     setIsDialogOpen(true);
@@ -20,15 +15,6 @@ const Navbar = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-  // const adminDetails = {
-  //   fullName: admin.fullName || null,
-  //   email: admin.email || null,
-  //   department: admin.department || null,
-  //   designation: admin.designation || null,
-  // };
-
-  const isAdminPresent = adminDetails && Object.values(adminDetails) === null;
 
   return (
     <div className="flex items-center justify-between p-4">
@@ -47,35 +33,29 @@ const Navbar = () => {
           <li>
             <ModeToggle />
           </li>
-          {isAdminPresent ? (
-            <>
-              <li>
-                <Button variant="outline" onClick={handleLogoutClick}>
-                  Log Out
-                </Button>
-                <Logout
-                  isDialogOpen={isDialogOpen}
-                  setIsDialogOpen={setIsDialogOpen}
-                />
-              </li>
-              <li>
-                <p>{adminDetails.fullName}</p>
-              </li>
-            </>
-          ) : (
-            <>
-              <li>
-                <Link to="admin/login">
-                  <Button variant="outline">Login</Button>
-                </Link>
-              </li>
-              <li>
-                <Link to="admin/register">
-                  <Button variant="outline">Sign Up</Button>
-                </Link>
-              </li>
-            </>
-          )}
+
+          <li>
+            <Link to="admin/login">
+              <Button variant="outline">Login</Button>
+            </Link>
+          </li>
+          <li>
+            <Link to="admin/register">
+              <Button variant="outline">Sign Up</Button>
+            </Link>
+          </li>
+          <>
+            <li>
+              <Button variant="outline" onClick={handleLogoutClick}>
+                Log Out
+              </Button>
+              <Logout
+                isDialogOpen={isDialogOpen}
+                setIsDialogOpen={setIsDialogOpen}
+              />
+            </li>
+            <li></li>
+          </>
         </ul>
 
         <div className="flex md:hidden items-center gap-4">
@@ -126,7 +106,7 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
-            {!isAdminPresent ? (
+            {!isLoggedIn ? (
               <>
                 <li>
                   <Link to="admin/login" onClick={toggleSidebar}>

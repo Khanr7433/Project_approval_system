@@ -154,7 +154,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
     admin.passwordResetTokenExpires = passwordResetTokenExpires;
     await admin.save();
 
-    const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${passwordResetToken}`;
+    const resetUrl = `${process.env.ADMIN_FRONTEND_URL}/resetpassword/${passwordResetToken}`;
 
     const message = `You can reset your password here: ${resetUrl}`;
 
