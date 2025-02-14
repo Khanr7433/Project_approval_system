@@ -16,6 +16,9 @@ import {
   ForgotPassword,
   ChangePassword,
   ResetPassword,
+  ApproveProject,
+  ViewSubmittedProjects,
+  ViewApprovedProjects,
 } from "@/pages";
 
 const AdminRoutes = () => {
@@ -50,6 +53,12 @@ export const Routes = createBrowserRouter(
           path="resetPassword/:passwordResetToken"
           element={<ResetPassword />}
         />
+        <Route path="approveProject/:projectID" element={<ApproveProject />} />
+        <Route
+          path="viewsubmittedprojects"
+          element={<ViewSubmittedProjects />}
+        />
+        <Route path="viewapprovedprojects" element={<ViewApprovedProjects />} />
       </Route>
     </Route>
   )

@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 const Logout = ({ isDialogOpen, setIsDialogOpen, logoutAdmin }) => {
   const navigate = useNavigate();
   const logout = () => {
-    logoutAdmin();
+    logoutAdmin;
   };
 
   const handleLogout = async (e) => {

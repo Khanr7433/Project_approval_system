@@ -18,8 +18,8 @@ import {
 
 const Register = () => {
   const [fullName, setFullName] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
   const [department, setDepartment] = useState("");
+  const [designation, setDesignation] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -31,8 +31,8 @@ const Register = () => {
 
     const validationResult = registerSchema.safeParse({
       fullName,
-      employeeId,
       department,
+      designation,
       email,
       password,
     });
@@ -44,10 +44,10 @@ const Register = () => {
     }
 
     await axiosInstance
-      .post("/admins/register", {
+      .post("/admin/register", {
         fullName: fullName,
-        employeeId: employeeId,
         department: department,
+        designation: designation,
         email: email,
         password: password,
       })
@@ -60,8 +60,8 @@ const Register = () => {
       });
 
     setFullName("");
-    setEmployeeId("");
     setDepartment("");
+    setDesignation("");
     setEmail("");
     setPassword("");
   };
@@ -92,24 +92,6 @@ const Register = () => {
               )}
             </div>
 
-            <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="employeeId" id="employeeId">
-                Employee ID
-              </Label>
-              <Input
-                value={employeeId}
-                onChange={(e) => {
-                  setEmployeeId(e.target.value);
-                }}
-                id="employeeId"
-                type="text"
-                placeholder="Enter your Employee ID"
-              />
-              {errors.employeeId && (
-                <p className="text-red-600">{errors.employeeId._errors[0]}</p>
-              )}
-            </div>
-
             <div className="grid w/full items-center gap-1.5">
               <Label htmlFor="department" id="department">
                 Department
@@ -132,6 +114,37 @@ const Register = () => {
 
               {errors.department && (
                 <p className="text-red-600">{errors.department._errors[0]}</p>
+              )}
+            </div>
+
+            <div className="grid w/full items-center gap-1.5">
+              <Label htmlFor="designation" id="designation">
+                Designation
+              </Label>
+
+              <Select
+                onValueChange={(value) => {
+                  setDesignation(value);
+                }}
+                value={designation}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a Designation" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="HOD">HOD</SelectItem>
+                  <SelectItem value="Assistant Professor">
+                    Assistant Professor
+                  </SelectItem>
+                  <SelectItem value="Associate Professor">
+                    Associate Professor
+                  </SelectItem>
+                  <SelectItem value="Professor">Professor</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {errors.designation && (
+                <p className="text-red-600">{errors.designation._errors[0]}</p>
               )}
             </div>
 

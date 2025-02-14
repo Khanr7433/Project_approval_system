@@ -10,11 +10,11 @@ const Home = () => {
         <br /> Project Approval System
       </h1>
       <div className="flex flex-col md:flex-row gap-4 items-center">
-        <Link to="/admin/approveprojects">
-          <Button className="border">View Approved Projects</Button>
+        <Link to="admin/viewsubmittedprojects">
+          <Button className="border">View Submitted Projects</Button>
         </Link>
-        <Link to="/admin/viewprojects">
-          <Button className="border">View All Projects</Button>
+        <Link to="admin/viewapprovedprojects">
+          <Button className="border">View Approved Projects</Button>
         </Link>
       </div>
     </div>

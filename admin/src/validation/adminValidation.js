@@ -13,8 +13,8 @@ export const loginSchema = z.object({
 
 export const registerSchema = z.object({
   fullName: z.string().nonempty({ message: "Full Name is required" }),
-  employeeId: z.string().nonempty({ message: "Employee ID is required" }),
   department: z.string().nonempty({ message: "Department is required" }),
+  designation: z.string().nonempty({ message: "Designation is required" }),
   email: z
     .string()
     .nonempty({ message: "Email is required" })

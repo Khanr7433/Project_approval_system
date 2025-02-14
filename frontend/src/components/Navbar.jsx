@@ -98,9 +98,6 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <ModeToggle />
-            </li>
-            <li>
               <Link to="student/login" onClick={toggleSidebar}>
                 <Button variant="outline">Login</Button>
               </Link>

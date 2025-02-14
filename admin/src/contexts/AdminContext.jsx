@@ -10,8 +10,8 @@ export const AdminProvider = ({ children }) => {
     const AdminDetails = {
       fullName: adminData.admin.fullName || "",
       email: adminData.admin.email || "",
-      year: adminData.admin.year || "",
       department: adminData.admin.department || "",
+      designation: adminData.admin.designation || "",
     };
 
     setAdmin(AdminDetails);
@@ -25,7 +25,7 @@ export const AdminProvider = ({ children }) => {
     try {
       const response = await axiosInstance.get("/admin/profile");
       const studentData = response.data.data;
-      loginStudent(studentData);
+      loginAdmin(studentData);
     } catch (error) {
       console.error("Failed to fetch admin details:", error);
     }

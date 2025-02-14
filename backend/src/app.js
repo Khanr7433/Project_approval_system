@@ -20,6 +20,7 @@ app.use(
 import studentRoutes from "./routes/student.routes.js";
 import facultyRoutes from "./routes/faculty.routes.js";
 import projectRoutes from "./routes/project.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 // routes declaration
 app.get("/", (req, res) => {
@@ -28,5 +29,6 @@ app.get("/", (req, res) => {
 app.use("/students", studentRoutes);
 app.use("/faculties", facultyRoutes);
 app.use("/projects", projectRoutes);
+app.use("/admin", adminRoutes);
 
 export default app;

@@ -18,6 +18,15 @@ const Navbar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const adminDetails = {
+    fullName: admin.fullName || null,
+    email: admin.email || null,
+    department: admin.department || null,
+    designation: admin.designation || null,
+  };
+
+  const isAdminPresent = adminDetails && Object.values(adminDetails) === null;
+
   return (
     <div className="flex items-center justify-between p-4">
       <div className="text-2xl">
@@ -35,7 +44,22 @@ const Navbar = () => {
           <li>
             <ModeToggle />
           </li>
-          {admin ? (
+          {isAdminPresent ? (
+            <>
+              <li>
+                <Button variant="outline" onClick={handleLogoutClick}>
+                  Log Out
+                </Button>
+                <Logout
+                  isDialogOpen={isDialogOpen}
+                  setIsDialogOpen={setIsDialogOpen}
+                />
+              </li>
+              <li>
+                <p>{adminDetails.fullName}</p>
+              </li>
+            </>
+          ) : (
             <>
               <li>
                 <Link to="admin/login">
@@ -48,21 +72,9 @@ const Navbar = () => {
                 </Link>
               </li>
             </>
-          ) : (
-            <>
-              <li>
-                <Button variant="outline" onClick={handleLogoutClick}>
-                  Log Out
-                </Button>
-                <Logout
-                  isDialogOpen={isDialogOpen}
-                  setIsDialogOpen={setIsDialogOpen}
-                />
-              </li>
-              <p>{admin.fullName}</p>
-            </>
           )}
         </ul>
+
         <div className="flex md:hidden items-center gap-4">
           <ModeToggle />
           <button onClick={toggleSidebar}>
@@ -111,7 +123,7 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
-            {admin ? (
+            {!isAdminPresent ? (
               <>
                 <li>
                   <Link to="admin/login" onClick={toggleSidebar}>
@@ -141,7 +153,9 @@ const Navbar = () => {
                     setIsDialogOpen={setIsDialogOpen}
                   />
                 </li>
-                <p>{admin.fullName}</p>
+                <li>
+                  <p>{adminDetails.fullName}</p>
+                </li>
               </>
             )}
           </ul>

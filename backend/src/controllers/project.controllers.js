@@ -102,9 +102,36 @@ const getProjectByStudentId = asyncHandler(async (req, res) => {
   }
 });
 
+const getAssignedProjects = asyncHandler(async (req, res) => {
+  try {
+    const projects = await Project.find({
+      status: "approved",
+      guide: req.faculty._id,
+    });
+
+    if (!projects) {
+      throw new apiError(404, "No projects found!");
+    }
+
+    return res
+      .status(200)
+      .json(
+        new apiResponse(200, { projects }, "Projects fetched successfully!")
+      );
+  } catch (error) {
+    throw new apiError(401, error?.message || "Something went wrong!");
+  }
+});
+
 const approveProject = asyncHandler(async (req, res) => {
   try {
-    const project = await Project.findById(req.params._id);
+    const projectID = req.params._id;
+
+    if (!projectID) {
+      throw new apiError(400, "Project ID is required!");
+    }
+
+    const project = await Project.findById(projectID);
 
     if (!project) {
       throw new apiError(404, "Project not found!");
@@ -117,6 +144,28 @@ const approveProject = asyncHandler(async (req, res) => {
       .status(200)
       .json(
         new apiResponse(200, { project }, "Project approved successfully!")
+      );
+  } catch (error) {
+    throw new apiError(401, error?.message || "Something went wrong!");
+  }
+});
+
+const getApprovedProjects = asyncHandler(async (req, res) => {
+  try {
+    const projects = await Project.find({ status: "approved" });
+
+    if (!projects) {
+      throw new apiError(404, "No projects found!");
+    }
+
+    return res
+      .status(200)
+      .json(
+        new apiResponse(
+          200,
+          { projects },
+          "Approved Projects fetched successfully!"
+        )
       );
   } catch (error) {
     throw new apiError(401, error?.message || "Something went wrong!");
@@ -166,7 +215,9 @@ export {
   uploadProject,
   getAllProjects,
   getProjectByStudentId,
+  getAssignedProjects,
   approveProject,
+  getApprovedProjects,
   rejectProject,
   deleteProject,
 };

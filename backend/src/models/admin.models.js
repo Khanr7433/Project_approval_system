@@ -2,13 +2,17 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const facultySchema = new mongoose.Schema(
+const adminSchema = new mongoose.Schema(
   {
     fullName: {
       type: String,
       required: true,
     },
     email: {
+      type: String,
+      required: true,
+    },
+    password: {
       type: String,
       required: true,
     },
@@ -20,17 +24,7 @@ const facultySchema = new mongoose.Schema(
     designation: {
       type: String,
       required: true,
-      enum: ["Assistant Professor", "Associate Professor", "Professor"],
-    },
-    assignedProjects: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Project",
-      },
-    ],
-    password: {
-      type: String,
-      required: true,
+      enum: ["HOD", "Assistant Professor", "Associate Professor", "Professor"],
     },
     passwordResetToken: {
       type: String,
@@ -46,18 +40,18 @@ const facultySchema = new mongoose.Schema(
   }
 );
 
-facultySchema.pre("save", async function (next) {
+adminSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
-facultySchema.methods.isPasswordCorrect = async function (password) {
+adminSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-facultySchema.methods.generateJWTToken = function () {
+adminSchema.methods.generateJWTToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -71,7 +65,7 @@ facultySchema.methods.generateJWTToken = function () {
   );
 };
 
-facultySchema.methods.generatePasswordResetToken = function () {
+adminSchema.methods.generatePasswordResetToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -83,4 +77,4 @@ facultySchema.methods.generatePasswordResetToken = function () {
   );
 };
 
-export const Faculty = mongoose.model("Faculty", facultySchema);
+export const Admin = mongoose.model("Admin", adminSchema);

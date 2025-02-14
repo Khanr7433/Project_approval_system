@@ -6,6 +6,9 @@ import ForgotPassword from "./ForgotPassword";
 import ChangePassword from "./ChangePassword";
 import ResetPassword from "./ResetPassword";
 import Login from "./login";
+import ApproveProject from "./ApproveProject";
+import ViewApprovedProjects from "./ViewApprovedProjects";
+import ViewSubmittedProjects from "./ViewSubmittedProjects";
 
 export {
   Home,
@@ -16,4 +19,7 @@ export {
   ForgotPassword,
   ChangePassword,
   ResetPassword,
+  ApproveProject,
+  ViewApprovedProjects,
+  ViewSubmittedProjects,
 };
