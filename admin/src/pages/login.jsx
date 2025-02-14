@@ -41,7 +41,6 @@ const Login = () => {
         toast.success(response.data.message);
         Cookies.set("token", response.data.token);
         loginAdmin(response.data.data);
-        console.log(response.data.data);
         navigate("/admin");
       })
       .catch((error) => {

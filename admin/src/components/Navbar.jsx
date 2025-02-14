@@ -10,6 +10,9 @@ const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { admin } = useAdmin();
 
+  const adminDetails = admin;
+  console.log(adminDetails);
+
   const handleLogoutClick = () => {
     setIsDialogOpen(true);
   };
@@ -18,12 +21,12 @@ const Navbar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const adminDetails = {
-    fullName: admin.fullName || null,
-    email: admin.email || null,
-    department: admin.department || null,
-    designation: admin.designation || null,
-  };
+  // const adminDetails = {
+  //   fullName: admin.fullName || null,
+  //   email: admin.email || null,
+  //   department: admin.department || null,
+  //   designation: admin.designation || null,
+  // };
 
   const isAdminPresent = adminDetails && Object.values(adminDetails) === null;
 
