@@ -37,7 +37,11 @@ router.route("/getprojects").get(authenticateAdmin, getAllProjects);
 router
   .route("/getapprovedprojects")
   .get(authenticateAdmin, getApprovedProjects);
-router.route("/approveproject/:_id").patch(authenticateAdmin, approveProject);
-router.route("/rejectproject/:_id").patch(authenticateAdmin, rejectProject);
+router
+  .route("/approveproject/:projectId")
+  .patch(authenticateAdmin, approveProject);
+router
+  .route("/rejectproject/:projectId")
+  .patch(authenticateAdmin, rejectProject);
 
 export default router;

@@ -32,7 +32,7 @@ const FacultyChangePassword = () => {
     }
 
     await axiosInstance
-      .post("/faculty/changepassword", {
+      .post("/faculties/changepassword", {
         oldPassword,
         newPassword,
       })

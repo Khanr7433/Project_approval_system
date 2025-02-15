@@ -28,7 +28,7 @@ const FacultyForgotPassword = () => {
     }
 
     await axiosInstance
-      .post("/faculty/forgotpassword", { email })
+      .post("/faculties/forgotpassword", { email })
       .then((response) => {
         toast.success(response.data.message);
       })

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "@/utils/axiosInstance";
 import React, { useState } from "react";
 import { facultySchema } from "@/validation/facultyValidation";
@@ -23,6 +23,7 @@ const FacultyRegister = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -43,7 +44,7 @@ const FacultyRegister = () => {
     }
 
     await axiosInstance
-      .post("/faculty/register", {
+      .post("/faculties/register", {
         fullName: fullName,
         department: department,
         designation: designation,
@@ -52,6 +53,7 @@ const FacultyRegister = () => {
       })
       .then((response) => {
         toast.success(response.data.message);
+        navigate("/faculty/login");
       })
       .catch((error) => {
         handleError(error);

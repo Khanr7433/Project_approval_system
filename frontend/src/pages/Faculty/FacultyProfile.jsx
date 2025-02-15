@@ -8,13 +8,6 @@ const FacultyProfile = () => {
 
   const { fullName, email, department, designation } = faculty;
 
-  useEffect(() => {
-    // Fetch faculty details and projects from an API or data source
-    // Example:
-    // setFacultyDetails({ name: "Jane Doe", department: "Computer Science" });
-    // setProjects([{ title: "Project 1", description: "Description 1" }, { title: "Project 2", description: "Description 2" }]);
-  }, []);
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Faculty Profile</h1>

@@ -4,6 +4,8 @@ import apiResponse from "../utils/apiResponse.js";
 import sendEmail from "../utils/sendEmail.js";
 import { Admin } from "../models/admin.models.js";
 import { cookieOptions } from "../constants.js";
+import { Faculty } from "../models/faculty.models.js";
+import { Project } from "../models/project.models.js";
 
 const registerAdmin = asyncHandler(async (req, res) => {
   try {
@@ -248,6 +250,59 @@ const getAdminProfile = asyncHandler(async (req, res) => {
   }
 });
 
+const getGuides = asyncHandler(async (req, res) => {
+  try {
+    const guides = await Faculty.find({}).select("-password");
+
+    if (!guides) {
+      throw new apiError(404, "Guides not found");
+    }
+
+    return res.status(200).json(
+      new apiResponse(
+        200,
+        {
+          guides,
+        },
+        "Guides fetched successfully"
+      )
+    );
+  } catch (error) {
+    throw new apiError(401, error?.message || "Something went wrong!");
+  }
+});
+
+const assignGuide = asyncHandler(async (req, res) => {
+  try {
+    const { guideId, projectId } = req.body;
+
+    if (!(guideId && projectId)) {
+      throw new apiError(400, "All fields are required");
+    }
+
+    const guide = await Faculty.findById(guideId);
+
+    if (!guide) {
+      throw new apiError(404, "Guide not found");
+    }
+
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      throw new apiError(404, "Project not found");
+    }
+
+    project.guide = guideId;
+    await project.save();
+
+    return res
+      .status(200)
+      .json(new apiResponse(200, {}, "Guide assigned successfully"));
+  } catch (error) {
+    throw new apiError(401, error?.message || "Something went wrong!");
+  }
+});
+
 export {
   registerAdmin,
   loginAdmin,
@@ -256,4 +311,6 @@ export {
   forgotPassword,
   resetPassword,
   getAdminProfile,
+  getGuides,
+  assignGuide,
 };

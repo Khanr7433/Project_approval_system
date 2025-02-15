@@ -32,7 +32,7 @@ const FacultyLogin = () => {
     }
 
     await axiosInstance
-      .post("/faculty/login", {
+      .post("/faculties/login", {
         email: email,
         password: password,
       })

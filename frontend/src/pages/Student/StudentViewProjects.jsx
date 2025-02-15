@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
 
 const StudentViewProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -45,15 +46,20 @@ const StudentViewProjects = () => {
                     <strong>Description : </strong>
                     {project.description}
                   </p>
-                  <a
-                    href={project.synopsisFile}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline text-blue-600"
+                  <p className="mt-2">Status: {project.status}</p>
+                  <Button
+                    onClick={() =>
+                      window.open(
+                        project.synopsis,
+                        "_blank",
+                        "noopener,noreferrer"
+                      )
+                    }
+                    variant="outline"
+                    className="mt-4"
                   >
                     View Synopsis
-                  </a>
-                  <p className="mt-2">Status: {project.status}</p>
+                  </Button>
                 </CardContent>
               </Card>
             ))

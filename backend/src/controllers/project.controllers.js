@@ -139,13 +139,14 @@ const getAssignedProjects = asyncHandler(async (req, res) => {
 
 const approveProject = asyncHandler(async (req, res) => {
   try {
-    const projectID = req.params._id;
+    const projectID = req.params.projectId;
+    console.log(projectID);
 
     if (!projectID) {
       throw new apiError(400, "Project ID is required!");
     }
 
-    const project = await Project.findById(projectID);
+    const project = await Project.findById({ _id: projectID });
 
     if (!project) {
       throw new apiError(404, "Project not found!");
