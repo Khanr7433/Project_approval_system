@@ -53,7 +53,7 @@ export const Routes = createBrowserRouter(
           path="resetPassword/:passwordResetToken"
           element={<ResetPassword />}
         />
-        <Route path="approveProject/:projectID" element={<ApproveProject />} />
+        <Route path="approveproject/:projectId" element={<ApproveProject />} />
         <Route
           path="viewsubmittedprojects"
           element={<ViewSubmittedProjects />}

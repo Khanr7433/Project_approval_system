@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { ModeToggle } from "./Theme-toggle";
 import { Button } from "./ui/button";
 import StudentLogout from "@/pages/Student/StudentLogout";
+import FacultyLogout from "@/pages/Faculty/FacultyLogout";
 
 const Navbar = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation();
 
   const handleLogoutClick = () => {
     setIsDialogOpen(true);
@@ -15,6 +17,9 @@ const Navbar = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const isStudent = location.pathname.includes("student");
+  const isFaculty = location.pathname.includes("faculty");
 
   return (
     <div className="flex items-center justify-between p-4">
@@ -33,25 +38,52 @@ const Navbar = () => {
           <li>
             <ModeToggle />
           </li>
-          <li>
-            <Link to="student/login">
-              <Button variant="outline">Login</Button>
-            </Link>
-          </li>
-          <li>
-            <Link to="student/register">
-              <Button variant="outline">Sign Up</Button>
-            </Link>
-          </li>
-          <li>
-            <Button variant="outline" onClick={handleLogoutClick}>
-              Log Out
-            </Button>
-            <StudentLogout
-              isDialogOpen={isDialogOpen}
-              setIsDialogOpen={setIsDialogOpen}
-            />
-          </li>
+          {isStudent && (
+            <>
+              <li>
+                <Link to="student/login">
+                  <Button variant="outline">Login</Button>
+                </Link>
+              </li>
+              <li>
+                <Link to="student/register">
+                  <Button variant="outline">Sign Up</Button>
+                </Link>
+              </li>
+              <li>
+                <Button variant="outline" onClick={handleLogoutClick}>
+                  Log Out
+                </Button>
+                <StudentLogout
+                  isDialogOpen={isDialogOpen}
+                  setIsDialogOpen={setIsDialogOpen}
+                />
+              </li>
+            </>
+          )}
+          {isFaculty && (
+            <>
+              <li>
+                <Link to="faculty/login">
+                  <Button variant="outline">Login</Button>
+                </Link>
+              </li>
+              <li>
+                <Link to="faculty/register">
+                  <Button variant="outline">Sign Up</Button>
+                </Link>
+              </li>
+              <li>
+                <Button variant="outline" onClick={handleLogoutClick}>
+                  Log Out
+                </Button>
+                <FacultyLogout
+                  isDialogOpen={isDialogOpen}
+                  setIsDialogOpen={setIsDialogOpen}
+                />
+              </li>
+            </>
+          )}
         </ul>
         <div className="flex md:hidden items-center gap-4">
           <ModeToggle />
@@ -97,31 +129,64 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
-            <li>
-              <Link to="student/login" onClick={toggleSidebar}>
-                <Button variant="outline">Login</Button>
-              </Link>
-            </li>
-            <li>
-              <Link to="student/register" onClick={toggleSidebar}>
-                <Button variant="outline">Sign Up</Button>
-              </Link>
-            </li>
-            <li>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  handleLogoutClick();
-                  toggleSidebar();
-                }}
-              >
-                Log Out
-              </Button>
-              <StudentLogout
-                isDialogOpen={isDialogOpen}
-                setIsDialogOpen={setIsDialogOpen}
-              />
-            </li>
+            {isStudent && (
+              <>
+                <li>
+                  <Link to="student/login" onClick={toggleSidebar}>
+                    <Button variant="outline">Login</Button>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="student/register" onClick={toggleSidebar}>
+                    <Button variant="outline">Sign Up</Button>
+                  </Link>
+                </li>
+                <li>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      handleLogoutClick();
+                      toggleSidebar();
+                    }}
+                  >
+                    Log Out
+                  </Button>
+                  <StudentLogout
+                    isDialogOpen={isDialogOpen}
+                    setIsDialogOpen={setIsDialogOpen}
+                  />
+                </li>
+              </>
+            )}
+            {isFaculty && (
+              <>
+                <li>
+                  <Link to="faculty/login" onClick={toggleSidebar}>
+                    <Button variant="outline">Login</Button>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="faculty/register" onClick={toggleSidebar}>
+                    <Button variant="outline">Sign Up</Button>
+                  </Link>
+                </li>
+                <li>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      handleLogoutClick();
+                      toggleSidebar();
+                    }}
+                  >
+                    Log Out
+                  </Button>
+                  <FacultyLogout
+                    isDialogOpen={isDialogOpen}
+                    setIsDialogOpen={setIsDialogOpen}
+                  />
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}

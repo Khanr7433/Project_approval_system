@@ -19,6 +19,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { z } from "zod";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useParams } from "react-router-dom";
 
 const approveProjectSchema = z.object({
   projectId: z.string().nonempty("Project is required"),
@@ -128,7 +129,7 @@ const ApproveProject = ({
                       </SelectContent>
                     ))
                   ) : (
-                    <div> No guide Available </div>
+                    <p> No guide Available </p>
                   )}
                 </Select>
 

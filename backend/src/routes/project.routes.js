@@ -25,7 +25,9 @@ router
 router
   .route("/getprojectbystudentid")
   .get(authenticateStudent, getProjectByStudentId);
-router.route("/deleteproject/:_id").delete(authenticateStudent, deleteProject);
+router
+  .route("/deleteproject/:projectId")
+  .delete(authenticateStudent, deleteProject);
 
 // facukty project routes
 router
