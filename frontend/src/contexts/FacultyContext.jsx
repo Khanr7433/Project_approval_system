@@ -5,7 +5,6 @@ const FacultyContext = createContext();
 
 export const FacultyProvider = ({ children }) => {
   const [faculty, setFaculty] = useState({});
-  const [assignedProjects, setAssignedProjects] = useState([]);
 
   const loginFaculty = (facultyData) => {
     const facultyDetails = {
@@ -15,10 +14,7 @@ export const FacultyProvider = ({ children }) => {
       designation: facultyData.faculty.designation || "",
     };
 
-    const facultyProjects = facultyData.faculty.assignedProjects;
-
     setFaculty(facultyDetails);
-    setAssignedProjects(facultyProjects);
   };
 
   const logoutFaculty = () => {
@@ -40,7 +36,6 @@ export const FacultyProvider = ({ children }) => {
     <FacultyContext.Provider
       value={{
         faculty,
-        assignedProjects,
         loginFaculty,
         logoutFaculty,
         fetchFacultyDetails,

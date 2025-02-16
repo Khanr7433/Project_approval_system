@@ -16,7 +16,7 @@ const ViewSubmittedProjects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axiosInstance.get("faculties/getprojects");
+        const response = await axiosInstance.get("projects/getprojects");
         setProjects(response.data.data.projects);
       } catch (error) {
         toast.error("Failed to fetch projects");

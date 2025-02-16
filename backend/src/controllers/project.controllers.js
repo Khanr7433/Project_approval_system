@@ -123,7 +123,7 @@ const getAssignedProjects = asyncHandler(async (req, res) => {
     const projects = await Project.find({
       status: "approved",
       guide: req.faculty._id,
-    });
+    }).populate("byStudent");
 
     if (!projects) {
       throw new apiError(404, "No projects found!");

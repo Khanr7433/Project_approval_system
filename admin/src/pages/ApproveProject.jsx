@@ -85,11 +85,9 @@ const ApproveProject = ({
         projectId,
       })
       .then((response) => {
-        console.log(response.data.message);
         toast.success(response.data.message);
       })
       .catch((error) => {
-        console.log(error);
         toast.error("Guide assignment failed");
       });
 
@@ -127,7 +125,8 @@ const ApproveProject = ({
                     guides.map((guide) => (
                       <SelectContent key={guide._id}>
                         <SelectItem key={guide._id} value={guide._id}>
-                          {guide.fullName} ({guide.numberOfProjects} projects)
+                          {guide.fullName} ( {guide.numberOfProjects} Projects
+                          Assigned )
                         </SelectItem>
                       </SelectContent>
                     ))

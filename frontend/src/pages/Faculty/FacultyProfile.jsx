@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useFaculty } from "@/contexts/FacultyContext";
 
 const FacultyProfile = () => {
-  const { faculty, assignedProjects } = useFaculty();
+  const { faculty } = useFaculty();
 
   const { fullName, email, department, designation } = faculty;
 
@@ -48,7 +48,7 @@ const FacultyProfile = () => {
         <CardHeader>
           <h2 className="text-2xl font-semibold">Assigned Projects</h2>
         </CardHeader>
-        <CardContent>
+        {/* <CardContent>
           {assignedProjects.length > 0 ? (
             <ul>
               {assignedProjects.map((project, index) => (
@@ -61,7 +61,7 @@ const FacultyProfile = () => {
           ) : (
             <p>No projects have been assigned.</p>
           )}
-        </CardContent>
+        </CardContent> */}
       </Card>
     </div>
   );

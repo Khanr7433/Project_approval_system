@@ -9,14 +9,14 @@ const ViewAssignedProjects = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      try {
-        const response = await axiosInstance.get(
-          "faculties/getassignedprojects"
-        );
-        setProjects(response.data.data.projects);
-      } catch (error) {
-        toast.error("Failed to fetch projects");
-      }
+      await axiosInstance
+        .get("/projects/getassignedprojects")
+        .then((response) => {
+          setProjects(response.data.data.projects);
+        })
+        .catch((error) => {
+          toast.error("Failed to fetch projects");
+        });
     };
 
     fetchProjects();
@@ -50,7 +50,7 @@ const ViewAssignedProjects = () => {
                 <CardContent>
                   <div>
                     <p>
-                      <strong>Title :</strong>
+                      <strong>Title : </strong>
                       {project.title}
                     </p>
                     <p>
