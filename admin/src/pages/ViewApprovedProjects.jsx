@@ -56,6 +56,9 @@ const ViewApprovedProjects = () => {
                     <p>
                       <strong>Description :</strong> {project.description}
                     </p>
+                    <p>
+                      <strong>Guide :</strong> {project.guide.fullName}
+                    </p>
                   </div>
                   <div className="flex space-x-4 mt-4">
                     <Button

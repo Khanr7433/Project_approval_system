@@ -170,7 +170,9 @@ const approveProject = asyncHandler(async (req, res) => {
 
 const getApprovedProjects = asyncHandler(async (req, res) => {
   try {
-    const projects = await Project.find({ status: "approved" });
+    const projects = await Project.find({ status: "approved" })
+      .populate("byStudent")
+      .populate("guide");
 
     if (!projects) {
       throw new apiError(404, "No projects found!");

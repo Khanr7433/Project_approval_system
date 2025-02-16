@@ -26,8 +26,10 @@ export const AdminProvider = ({ children }) => {
       const response = await axiosInstance.get("/admin/profile");
       const adminData = response.data.data;
       loginAdmin(adminData);
+      return true;
     } catch (error) {
       console.error("Failed to fetch admin details:", error);
+      return false;
     }
   };
 

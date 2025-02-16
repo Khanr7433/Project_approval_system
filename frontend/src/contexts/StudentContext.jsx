@@ -27,8 +27,10 @@ export const StudentProvider = ({ children }) => {
       const response = await axiosInstance.get("/students/profile");
       const studentData = response.data.data;
       loginStudent(studentData);
+      return true;
     } catch (error) {
       console.error("Failed to fetch student details:", error);
+      return false;
     }
   };
 

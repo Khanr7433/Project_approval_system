@@ -27,8 +27,10 @@ export const FacultyProvider = ({ children }) => {
       const response = await axiosInstance.get("/faculties/profile");
       const facultyData = response.data.data;
       loginFaculty(facultyData);
+      return true;
     } catch (error) {
       console.error("Failed to fetch faculty details:", error);
+      return false;
     }
   };
 

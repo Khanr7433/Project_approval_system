@@ -29,6 +29,8 @@ import {
 import { StudentProvider, useStudent } from "@/contexts/StudentContext";
 import { FacultyProvider, useFaculty } from "@/contexts/FacultyContext";
 import { Outlet } from "react-router-dom";
+import StudentProtectedRouteProvider from "./StudentProtectedRouteProvider";
+import FacultyProtectedRouteProvider from "./FacultyProtectedRouteProvider";
 
 const StudentRoutes = () => {
   const { fetchStudentDetails, logoutStudent } = useStudent();
@@ -66,12 +68,20 @@ export const Routes = createBrowserRouter(
         <Route index element={<StudentHome />} />
         <Route path="login" element={<StudentLogin />} />
         <Route path="register" element={<StudentRegister />} />
-        <Route path="logout" element={<StudentLogout />} />
-        <Route path="profile" element={<StudentProfile />} />
-        <Route path="changepassword" element={<StudentChangePassword />} />
-        <Route path="submitproject" element={<StudentSubmitProject />} />
-        <Route path="viewprojects" element={<StudentViewProjects />} />
-        <Route path="deleteproject" element={<StudentDeleteProject />} />
+        <Route
+          element={
+            <StudentProvider>
+              <StudentProtectedRouteProvider />
+            </StudentProvider>
+          }
+        >
+          <Route path="logout" element={<StudentLogout />} />
+          <Route path="profile" element={<StudentProfile />} />
+          <Route path="changepassword" element={<StudentChangePassword />} />
+          <Route path="submitproject" element={<StudentSubmitProject />} />
+          <Route path="viewprojects" element={<StudentViewProjects />} />
+          <Route path="deleteproject" element={<StudentDeleteProject />} />
+        </Route>
       </Route>
 
       <Route
@@ -85,10 +95,21 @@ export const Routes = createBrowserRouter(
         <Route index element={<FacultyHome />} />
         <Route path="login" element={<FacultyLogin />} />
         <Route path="register" element={<FacultyRegister />} />
-        <Route path="logout" element={<FacultyLogout />} />
-        <Route path="profile" element={<FacultyProfile />} />
-        <Route path="changepassword" element={<FacultyChangePassword />} />
-        <Route path="viewassignedprojects" element={<ViewAssignedProjects />} />
+        <Route
+          element={
+            <FacultyProvider>
+              <FacultyProtectedRouteProvider />
+            </FacultyProvider>
+          }
+        >
+          <Route path="logout" element={<FacultyLogout />} />
+          <Route path="profile" element={<FacultyProfile />} />
+          <Route path="changepassword" element={<FacultyChangePassword />} />
+          <Route
+            path="viewassignedprojects"
+            element={<ViewAssignedProjects />}
+          />
+        </Route>
       </Route>
     </Route>
   )

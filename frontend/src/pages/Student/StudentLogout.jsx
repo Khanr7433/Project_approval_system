@@ -36,6 +36,8 @@ const StudentLogout = ({ isDialogOpen, setIsDialogOpen, logoutStudent }) => {
         toast.error(error.message);
         console.log(error);
       });
+
+    setIsDialogOpen(false);
   };
 
   return (
