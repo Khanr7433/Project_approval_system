@@ -72,13 +72,15 @@ const ApproveProject = ({
     }
 
     await axiosInstance
-      .patch(`/admin/approveproject/${projectId}`)
+
+      .patch(`/projects/approveproject/projectId=${projectId}`)
       .then((response) => {
         console.log(response.data.message);
         toast.success(response.data.message);
       })
       .catch((error) => {
-        toast.error(error.message);
+        console.log(error);
+        toast.error("Approval failed");
       });
 
     await axiosInstance
@@ -87,10 +89,12 @@ const ApproveProject = ({
         projectId,
       })
       .then((response) => {
+        console.log(response.data.message);
         toast.success(response.data.message);
       })
       .catch((error) => {
-        toast.error(error.message);
+        console.log(error);
+        toast.error("Guide assignment failed");
       });
 
     setGuideId("");
@@ -106,11 +110,14 @@ const ApproveProject = ({
         <AlertDialogHeader>
           <AlertDialogTitle>Approve Project</AlertDialogTitle>
         </AlertDialogHeader>
-        <AlertDialogDescription>
-          <Card className="w-full max-w-md">
-            <CardContent className="flex flex-col gap-4">
-              <form className="flex flex-col gap-4 w-full">
-                <Label htmlFor="guideId" id="guideId" className="mt-2">
+        <Card className="w-full max-w-md">
+          <CardContent className="flex flex-col gap-4">
+            <AlertDialogDescription className="text-center my-1">
+              <Label>Please select a guide to approve the project</Label>
+            </AlertDialogDescription>
+            <form className="flex flex-col gap-4 w-full">
+              <div className="flex flex-col gap-4">
+                <Label htmlFor="guideId" id="guideId" className="my-1">
                   Guide Name
                 </Label>
                 <Select
@@ -124,7 +131,7 @@ const ApproveProject = ({
                     guides.map((guide) => (
                       <SelectContent key={guide._id}>
                         <SelectItem key={guide._id} value={guide._id}>
-                          {guide.fullName}
+                          {guide.fullName} ({guide.numberOfProjects} projects)
                         </SelectItem>
                       </SelectContent>
                     ))
@@ -136,27 +143,27 @@ const ApproveProject = ({
                 {errors.guideId && (
                   <p className="text-red-600">{errors.guideId._errors[0]}</p>
                 )}
-                <div className="flex justify-center gap-4 ">
-                  <Button
-                    onClick={handleApprove}
-                    type="submit"
-                    variant="outline"
-                    className="w-1/2 text-green-600 hover:text-green-600"
-                  >
-                    Approve Project
-                  </Button>
-                  <Button
-                    onClick={handleCancel}
-                    variant="outline"
-                    className="w-1/2 text-red-600 hover:text-red-600"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
-        </AlertDialogDescription>
+              </div>
+              <div className="flex justify-center gap-4 ">
+                <Button
+                  onClick={handleApprove}
+                  type="submit"
+                  variant="outline"
+                  className="w-1/2 text-green-600 hover:text-green-600"
+                >
+                  Approve Project
+                </Button>
+                <Button
+                  onClick={handleCancel}
+                  variant="outline"
+                  className="w-1/2 text-red-600 hover:text-red-600"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
       </AlertDialogContent>
     </AlertDialog>
   );

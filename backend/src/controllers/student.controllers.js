@@ -168,10 +168,9 @@ const forgotPassword = asyncHandler(async (req, res) => {
       throw new apiError(404, "Student not found");
     }
 
-    const passwordResetToken = Student.generatePasswordResetToken().slice(
-      0,
-      60
-    );
+    const passwordResetToken = student
+      .generatePasswordResetToken()
+      .slice(0, 60);
     const passwordResetTokenExpires = Date.now() + 10 * 60 * 1000;
 
     student.passwordResetToken = passwordResetToken;

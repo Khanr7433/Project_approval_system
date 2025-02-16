@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
+  params: {},
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -16,6 +17,12 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    config.params = config.params || {};
+    const dynamicParams = config.dynamicParams || {};
+    Object.keys(dynamicParams).forEach((key) => {
+      config.params[key] = dynamicParams[key];
+    });
 
     if (config.data instanceof FormData) {
       config.headers["Content-Type"] = "multipart/form-data";

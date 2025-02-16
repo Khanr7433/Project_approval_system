@@ -80,7 +80,9 @@ const uploadProject = asyncHandler(async (req, res) => {
 
 const getAllProjects = asyncHandler(async (req, res) => {
   try {
-    const projects = await Project.find({}).populate("byStudent");
+    const projects = await Project.find({
+      status: { $nin: ["approved", "rejected"] },
+    }).populate("byStudent");
 
     if (!projects) {
       throw new apiError(404, "No projects found!");
@@ -140,13 +142,14 @@ const getAssignedProjects = asyncHandler(async (req, res) => {
 const approveProject = asyncHandler(async (req, res) => {
   try {
     const { projectId } = req.params;
-    console.log(req.params);
 
     if (!projectId) {
       throw new apiError(400, "Project ID is required!");
     }
 
-    const project = await Project.findOne({ _id: projectId });
+    const _id = projectId.replace("projectId=", "");
+
+    const project = await Project.findById(_id);
 
     if (!project) {
       throw new apiError(404, "Project not found!");

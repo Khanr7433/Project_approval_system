@@ -252,7 +252,25 @@ const getAdminProfile = asyncHandler(async (req, res) => {
 
 const getGuides = asyncHandler(async (req, res) => {
   try {
-    const guides = await Faculty.find({}).select("-password");
+    const guides = await Faculty.aggregate([
+      {
+        $lookup: {
+          from: "projects",
+          localField: "_id",
+          foreignField: "guide",
+          as: "projects",
+        },
+      },
+      {
+        $project: {
+          fullName: 1,
+          email: 1,
+          department: 1,
+          designation: 1,
+          numberOfProjects: { $size: "$projects" },
+        },
+      },
+    ]);
 
     if (!guides) {
       throw new apiError(404, "Guides not found");

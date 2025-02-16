@@ -56,13 +56,15 @@ const ViewSubmittedProjects = () => {
                   </p>
                 </CardHeader>
                 <CardContent>
-                  <p>
-                    <strong>Title :</strong>
-                    {project.title}
-                  </p>
-                  <p>
-                    <strong>Description :</strong> {project.description}
-                  </p>
+                  <div>
+                    <p>
+                      <strong>Title :</strong>
+                      {project.title}
+                    </p>
+                    <p>
+                      <strong>Description :</strong> {project.description}
+                    </p>
+                  </div>
                   <div className="flex space-x-4 mt-4">
                     <Button
                       onClick={() =>
