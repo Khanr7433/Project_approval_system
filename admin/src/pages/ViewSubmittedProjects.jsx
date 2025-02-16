@@ -4,10 +4,13 @@ import { Button } from "@/components/ui/button";
 import axiosInstance from "@/utils/axiosInstance";
 import toast from "react-hot-toast";
 import ApproveProject from "./ApproveProject";
+import { use } from "react";
+import { RejectProject } from ".";
 
 const ViewSubmittedProjects = () => {
   const [projects, setProjects] = useState([]);
   const [isApproveDialogOpen, setIsApproveDialogOpen] = useState(false);
+  const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
   const [projectId, setProjectId] = useState(null);
 
   useEffect(() => {
@@ -28,7 +31,10 @@ const ViewSubmittedProjects = () => {
     setIsApproveDialogOpen(true);
   };
 
-  const handleRejectProject = async (projectId) => {};
+  const handleRejectProject = async (projectId) => {
+    setProjectId(projectId);
+    setIsRejectDialogOpen(true);
+  };
 
   return (
     <div className="flex justify-center p-4">
@@ -109,6 +115,11 @@ const ViewSubmittedProjects = () => {
         projectId={projectId}
         isApproveDialogOpen={isApproveDialogOpen}
         setIsApproveDialogOpen={setIsApproveDialogOpen}
+      />
+      <RejectProject
+        projectId={projectId}
+        isRejectDialogOpen={isRejectDialogOpen}
+        setIsRejectDialogOpen={setIsRejectDialogOpen}
       />
     </div>
   );

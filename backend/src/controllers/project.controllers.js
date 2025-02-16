@@ -192,7 +192,15 @@ const getApprovedProjects = asyncHandler(async (req, res) => {
 
 const rejectProject = asyncHandler(async (req, res) => {
   try {
-    const project = await Project.findById(req.params._id);
+    const { projectId } = req.params;
+
+    if (!projectId) {
+      throw new apiError(400, "Project ID is required!");
+    }
+
+    const _id = projectId.replace("projectId=", "");
+
+    const project = await Project.findById(_id);
 
     if (!project) {
       throw new apiError(404, "Project not found!");
@@ -213,7 +221,15 @@ const rejectProject = asyncHandler(async (req, res) => {
 
 const deleteProject = asyncHandler(async (req, res) => {
   try {
-    const project = await Project.findById(req.params._id);
+    const { projectId } = req.params;
+
+    if (!projectId) {
+      throw new apiError(400, "Project ID is required!");
+    }
+
+    const _id = projectId.replace("projectId=", "");
+
+    const project = await Project.findById(_id);
 
     if (!project) {
       throw new apiError(404, "Project not found!");

@@ -19,7 +19,6 @@ import axiosInstance from "@/utils/axiosInstance";
 import { z } from "zod";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useParams } from "react-router-dom";
 
 const approveProjectSchema = z.object({
   projectId: z.string().nonempty("Project is required"),
@@ -72,14 +71,11 @@ const ApproveProject = ({
     }
 
     await axiosInstance
-
       .patch(`/projects/approveproject/projectId=${projectId}`)
       .then((response) => {
-        console.log(response.data.message);
         toast.success(response.data.message);
       })
       .catch((error) => {
-        console.log(error);
         toast.error("Approval failed");
       });
 
