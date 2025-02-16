@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
-  useNavigate,
 } from "react-router-dom";
 import Layout from "@/Layout";
 import { AdminProvider, useAdmin } from "@/contexts/AdminContext";
