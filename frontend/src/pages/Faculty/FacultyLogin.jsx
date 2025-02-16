@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
@@ -15,6 +15,7 @@ const FacultyLogin = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { loginFaculty } = useFaculty();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -40,6 +41,7 @@ const FacultyLogin = () => {
         toast.success(response.data.message);
         Cookies.set("token", response.data.token);
         loginFaculty(response.data.data);
+        navigate("/faculty");
       })
       .catch((error) => {
         toast.error(error.message);

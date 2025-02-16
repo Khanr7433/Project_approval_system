@@ -6,6 +6,7 @@ import FacultyProfile from "./FacultyProfile";
 import FacultyChangePassword from "./FacultyChangePassword";
 import FacultyResetPassword from "./FacultyResetPassword";
 import FacultyForgotPassword from "./FacultyForgotPassword";
+import ViewAssignedProjects from "./ViewAssignedProjects";
 
 export {
   FacultyHome,
@@ -16,4 +17,5 @@ export {
   FacultyChangePassword,
   FacultyResetPassword,
   FacultyForgotPassword,
+  ViewAssignedProjects,
 };

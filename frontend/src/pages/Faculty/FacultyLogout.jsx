@@ -22,7 +22,7 @@ const FacultyLogout = ({ isDialogOpen, setIsDialogOpen, logoutFaculty }) => {
     e.preventDefault();
 
     await axiosInstance
-      .post("/faculty/logout")
+      .post("/faculties/logout")
       .then((response) => {
         toast.success(response.data.message);
         Cookies.remove("token");

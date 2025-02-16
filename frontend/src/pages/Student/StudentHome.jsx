@@ -13,7 +13,7 @@ const StudentHome = () => {
         <Link to="/student/submitproject">
           <Button className="border">Submit New Project</Button>
         </Link>
-        <Link to="/student/viewproject">
+        <Link to="/student/viewprojects">
           <Button className="border">View Submitted Projects</Button>
         </Link>
       </div>

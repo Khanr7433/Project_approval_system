@@ -3,9 +3,12 @@ import axiosInstance from "@/utils/axiosInstance";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
+import { StudentDeleteProject } from ".";
 
 const StudentViewProjects = () => {
   const [projects, setProjects] = useState([]);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [projectId, setProjectId] = useState(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -21,6 +24,11 @@ const StudentViewProjects = () => {
 
     fetchProjects();
   }, []);
+
+  const HandleDeleteProject = (projectId) => {
+    setProjectId(projectId);
+    setIsDeleteDialogOpen(true);
+  };
 
   return (
     <div className="flex justify-center p-4">
@@ -60,12 +68,24 @@ const StudentViewProjects = () => {
                   >
                     View Synopsis
                   </Button>
+                  <Button
+                    onClick={() => HandleDeleteProject(project._id)}
+                    variant="outline"
+                    className="mt-4 ml-4 text-red-600 hover:text-red-600"
+                  >
+                    Delete
+                  </Button>
                 </CardContent>
               </Card>
             ))
           )}
         </CardContent>
       </Card>
+      <StudentDeleteProject
+        projectId={projectId}
+        isDeleteDialogOpen={isDeleteDialogOpen}
+        setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+      />
     </div>
   );
 };

@@ -28,7 +28,7 @@ export const FacultyProvider = ({ children }) => {
 
   const fetchFacultyDetails = async () => {
     try {
-      const response = await axiosInstance.get("/faculty/profile");
+      const response = await axiosInstance.get("/faculties/profile");
       const facultyData = response.data.data;
       loginFaculty(facultyData);
     } catch (error) {

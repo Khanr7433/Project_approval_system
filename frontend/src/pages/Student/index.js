@@ -8,6 +8,7 @@ import StudentResetPassword from "./StudentResetPassword";
 import StudentForgotPassword from "./StudentForgotPassword";
 import StudentSubmitProject from "./StudentSubmitProject";
 import StudentViewProjects from "./StudentViewProjects";
+import StudentDeleteProject from "./StudentDeleteProject";
 
 export {
   StudentHome,
@@ -20,4 +21,5 @@ export {
   StudentForgotPassword,
   StudentSubmitProject,
   StudentViewProjects,
+  StudentDeleteProject,
 };

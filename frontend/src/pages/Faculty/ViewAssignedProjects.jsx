@@ -3,20 +3,16 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import axiosInstance from "@/utils/axiosInstance";
 import toast from "react-hot-toast";
-import ApproveProject from "./ApproveProject";
-import { use } from "react";
-import { RejectProject } from ".";
 
-const ViewSubmittedProjects = () => {
+const ViewAssignedProjects = () => {
   const [projects, setProjects] = useState([]);
-  const [isApproveDialogOpen, setIsApproveDialogOpen] = useState(false);
-  const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
-  const [projectId, setProjectId] = useState(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axiosInstance.get("faculties/getprojects");
+        const response = await axiosInstance.get(
+          "faculties/getassignedprojects"
+        );
         setProjects(response.data.data.projects);
       } catch (error) {
         toast.error("Failed to fetch projects");
@@ -26,21 +22,11 @@ const ViewSubmittedProjects = () => {
     fetchProjects();
   }, []);
 
-  const handleApproveProject = (projectId) => {
-    setProjectId(projectId);
-    setIsApproveDialogOpen(true);
-  };
-
-  const handleRejectProject = async (projectId) => {
-    setProjectId(projectId);
-    setIsRejectDialogOpen(true);
-  };
-
   return (
     <div className="flex justify-center p-4">
       <Card className="w-full max-w-4xl">
         <CardHeader>
-          <h1 className="text-3xl mb-4">Submitted Projects</h1>
+          <h1 className="text-3xl mb-4">Assigned Projects</h1>
         </CardHeader>
         <CardContent>
           {projects && projects.length === 0 ? (
@@ -84,26 +70,6 @@ const ViewSubmittedProjects = () => {
                     >
                       View Synopsis
                     </Button>
-
-                    <Button
-                      onClick={() => {
-                        handleApproveProject(project._id);
-                      }}
-                      variant="outline"
-                      className="text-green-600 hover:text-green-600"
-                    >
-                      Approve
-                    </Button>
-
-                    <Button
-                      onClick={() => {
-                        handleRejectProject(project._id);
-                      }}
-                      variant="outline"
-                      className="text-red-600 hover:text-red-600"
-                    >
-                      Reject
-                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -111,18 +77,8 @@ const ViewSubmittedProjects = () => {
           )}
         </CardContent>
       </Card>
-      <ApproveProject
-        projectId={projectId}
-        isApproveDialogOpen={isApproveDialogOpen}
-        setIsApproveDialogOpen={setIsApproveDialogOpen}
-      />
-      <RejectProject
-        projectId={projectId}
-        isRejectDialogOpen={isRejectDialogOpen}
-        setIsRejectDialogOpen={setIsRejectDialogOpen}
-      />
     </div>
   );
 };
 
-export default ViewSubmittedProjects;
+export default ViewAssignedProjects;

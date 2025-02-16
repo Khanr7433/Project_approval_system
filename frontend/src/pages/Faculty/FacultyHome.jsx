@@ -10,8 +10,8 @@ const FacultyHome = () => {
         <br /> Project Approval System
       </h1>
       <div className="flex flex-col md:flex-row gap-4">
-        <Link to="/faculty/view-project">
-          <Button className="border">View Projects</Button>
+        <Link to="/faculty/viewassignedprojects">
+          <Button className="border">View assigned projects</Button>
         </Link>
       </div>
     </div>

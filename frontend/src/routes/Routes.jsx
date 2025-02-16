@@ -15,6 +15,7 @@ import {
   StudentChangePassword,
   StudentSubmitProject,
   StudentViewProjects,
+  StudentDeleteProject,
 } from "@/pages/Student";
 import {
   FacultyHome,
@@ -23,6 +24,7 @@ import {
   FacultyLogout,
   FacultyChangePassword,
   FacultyProfile,
+  ViewAssignedProjects,
 } from "@/pages/Faculty";
 import { StudentProvider, useStudent } from "@/contexts/StudentContext";
 import { FacultyProvider, useFaculty } from "@/contexts/FacultyContext";
@@ -69,6 +71,7 @@ export const Routes = createBrowserRouter(
         <Route path="changepassword" element={<StudentChangePassword />} />
         <Route path="submitproject" element={<StudentSubmitProject />} />
         <Route path="viewprojects" element={<StudentViewProjects />} />
+        <Route path="deleteproject" element={<StudentDeleteProject />} />
       </Route>
 
       <Route
@@ -85,6 +88,7 @@ export const Routes = createBrowserRouter(
         <Route path="logout" element={<FacultyLogout />} />
         <Route path="profile" element={<FacultyProfile />} />
         <Route path="changepassword" element={<FacultyChangePassword />} />
+        <Route path="viewassignedprojects" element={<ViewAssignedProjects />} />
       </Route>
     </Route>
   )
