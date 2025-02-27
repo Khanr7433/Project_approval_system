@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A web application for institutions to streamline the project approval proccess of students.",
   "main": "src/index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
