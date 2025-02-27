@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 
 const StudentHome = () => {
   return (
-    <div className="dark min-h-screen flex flex-col items-center justify-center">
+    <div className="dark min-h-screen flex flex-col items-center justify-center ">
       <h1 className="text-4xl font-bold mb-8 text-center">
         Welcome to the Student Panel
         <br /> Project Approval System
       </h1>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col items-center justify-center md:flex-row gap-4">
         <Link to="/student/submitproject">
           <Button className="border">Submit New Project</Button>
         </Link>

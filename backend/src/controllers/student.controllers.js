@@ -4,6 +4,7 @@ import apiResponse from "../utils/apiResponse.js";
 import sendEmail from "../utils/sendEmail.js";
 import { Student } from "../models/student.models.js";
 import { cookieOptions } from "../constants.js";
+import { getResetPasswordTemplate } from "../utils/mail_templates/reset_password.js";
 
 const registerStudent = asyncHandler(async (req, res) => {
   try {
@@ -180,6 +181,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
     const resetUrl = `${process.env.STUDENT_FACULTY_FRONTEND_URL}/resetpassword/${passwordResetToken}`;
 
     const message = `You can reset your password here: ${resetUrl}`;
+    // const message = getResetPasswordTemplate(student.fullName, resetUrl);
 
     const mailDeatils = await sendEmail(
       student.email,
