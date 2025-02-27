@@ -1,4 +1,4 @@
-import asyncHandler from "../utils/asyncHandler.js";
+import asyncHandler from "../utils/asynchandler.js";
 import apiError from "../utils/apiError.js";
 import { Student } from "../models/student.models.js";
 import { Faculty } from "../models/faculty.models.js";
