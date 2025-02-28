@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import axiosInstance from "@/utils/axiosInstance";
 import toast from "react-hot-toast";
 import ApproveProject from "./ApproveProject";
-import { use } from "react";
 import { RejectProject } from ".";
 
 const ViewSubmittedProjects = () => {
